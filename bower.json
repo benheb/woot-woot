@@ -4,8 +4,7 @@
   "dependencies": {
     "sass-bootstrap": "~3.0.0",
     "platform": "Polymer/platform#master",
-    "polymer": "Polymer/polymer#master",
-    "turf": "*"
+    "polymer": "Polymer/polymer#master"
   },
   "devDependencies": {}
 }
