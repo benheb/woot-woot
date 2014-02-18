@@ -19,3 +19,19 @@ html, body, #map {
   top: 65px;
   left: 20px;
 }
+
+/* Stylist Component */
+#stylist-element-container {
+  position: absolute;
+  z-index: 100;
+  left: 10px;
+  bottom: 10px;
+}
+
+/* Chart Component */
+#chart-element-container {
+  position: absolute;
+  z-index: 100;
+  left: 200px;
+  bottom: 10px;
+}
