@@ -72,7 +72,7 @@ Polymer('woot-map', {
               70,
               204
             ],
-            "width": 1,
+            "width": 2,
             "type": "esriSLS",
             "style": "esriSLSSolid"
           }
