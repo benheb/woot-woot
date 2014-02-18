@@ -60,7 +60,7 @@ Polymer('woot-map', {
 
         var rend = new SimpleRenderer(simpleJson);
         me.vrboLayer.setRenderer( rend );
-        //me.vrboLayer.on();
+        me.vrboLayer.on('click', function (e) { me.fire('layer-click', e); });
         me.map.addLayer(me.vrboLayer);
 
         var lineJson = {
