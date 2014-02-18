@@ -20,18 +20,21 @@ html, body, #map {
   left: 20px;
 }
 
+#elements-bottom {
+  position:absolute;
+  bottom:10px;
+  height:315px;
+  z-index: 100;
+}
+
 /* Stylist Component */
 #stylist-element-container {
-  position: absolute;
-  z-index: 100;
-  left: 10px;
+  float:left;
   bottom: 10px;
 }
 
 /* Chart Component */
 #chart-element-container {
-  position: absolute;
-  z-index: 100;
-  left: 200px;
+  float:left;
   bottom: 10px;
 }
