@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             },
 
             scripts: {
-              files: ['./app/elements/javascripts/*.js'],
+              files: ['<%= yeoman.app %>/elements/javascripts/**/*.js', '<%= yeoman.app %>/javascripts/**/*.js', 'Gruntfile.js'],
               tasks: ['jshint'],
               options: {
                 interrupt: true
@@ -107,12 +107,19 @@ module.exports = function (grunt) {
         jshint: {
             options: {
                 jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
+                reporter: require('jshint-stylish'),
+                globals: {
+                  Polymer: true,
+                  alert: true,
+                  SpatialReference: true
+                }
             },
             all: [
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
-                'test/spec/{,*/}*.js'
+                'test/spec/{,*/}*.js',
+                '<%= yeoman.app %>/elements/javascripts/**/*.js',
+                '<%= yeoman.app %>/javascripts/**/*.js'
             ]
         },
         mocha: {

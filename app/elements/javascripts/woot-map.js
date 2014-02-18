@@ -1,3 +1,5 @@
+'use strict';
+
 Polymer('woot-map', {
   basemap: 'streets',
   webMapId: '',
@@ -10,9 +12,9 @@ Polymer('woot-map', {
         basemap: me.basemap
       };
 
-      if (me.extent) { 
+      if (me.extent) {
         var ext = me.extent.split(',');
-        mapOptions.extent = new Extent(+ext[0], +ext[1], +ext[2], +ext[3]); 
+        mapOptions.extent = new Extent(+ext[0], +ext[1], +ext[2], +ext[3]);
       }
 
       if (me.webMapId) {
