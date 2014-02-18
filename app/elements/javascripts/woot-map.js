@@ -58,7 +58,6 @@ Polymer('woot-map', {
             }
         }
 
-
         var lineJson = {
           "type": "simple",
           "symbol": {
@@ -124,7 +123,7 @@ Polymer('woot-map', {
   _lineClick: function(e){
     this.fire('trail:click', e);
   },
-  _pointClick: function(){
+  _pointClick: function(e){
     this.fire('vrbo:click', e);
   }
 });
