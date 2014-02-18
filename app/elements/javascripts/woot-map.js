@@ -61,7 +61,8 @@ Polymer('woot-map', {
         me.map.addLayer(featureLayer);
         //raise event to outside world
         me.map.on('extent-change', function () { me.fire('extent-change'); });
-        window.map = me.map;
+        Woot = window.Woot || {};
+        Woot.map = me.map;
       }
     });
   },

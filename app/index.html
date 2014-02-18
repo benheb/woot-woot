@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <woot-map extent="-117,33,-117,35"></woot-map>
+      <woot-map basemap="national-geographic" extent="-117,33,-117,35"></woot-map>
       <stylist-element ramps="three" format="esri" type="point"></stylist-element>
       <chart-element></chart-element>    
         
@@ -53,4 +53,10 @@
 
     </body>
     <script src="javascripts/app.js"></script>
+    <script>
+      var Woot = {};
+      document.addEventListener('WebComponentsReady', function() {
+        Woot.controller = new WootController();
+      });
+    </script>
 </html>
