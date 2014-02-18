@@ -58,11 +58,6 @@ Polymer('woot-map', {
             }
         }
 
-        var rend = new SimpleRenderer(simpleJson);
-        me.vrboLayer.setRenderer( rend );
-        //me.vrboLayer.on();
-        me.map.addLayer(me.vrboLayer);
-
         var lineJson = {
           "type": "simple",
           "symbol": {
@@ -94,6 +89,10 @@ Polymer('woot-map', {
 
         trailsLayer2.setRenderer( trailStyle );
         me.map.addLayer( trailsLayer2 );
+        
+        var rend = new SimpleRenderer(simpleJson);
+        vrboLayer.setRenderer( rend );
+        me.map.addLayer(vrboLayer);
 
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
