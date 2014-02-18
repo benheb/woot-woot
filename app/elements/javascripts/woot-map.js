@@ -7,7 +7,7 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'dojo/domReady!'], function(Map, arcgisUtils, Extent, SpatialReference) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'dojo/domReady!'], function(Map, arcgisUtils, Extent) {
       var mapOptions= {
         basemap: me.basemap
       };

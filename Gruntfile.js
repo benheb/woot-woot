@@ -110,8 +110,7 @@ module.exports = function (grunt) {
                 reporter: require('jshint-stylish'),
                 globals: {
                   Polymer: true,
-                  alert: true,
-                  SpatialReference: true
+                  alert: true
                 }
             },
             all: [
