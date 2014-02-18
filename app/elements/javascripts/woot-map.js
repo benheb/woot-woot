@@ -106,11 +106,11 @@ Polymer('woot-map', {
     alert(msg);
   },
   changeFill: function(color) {
-    this.map.getLayer(map.graphicsLayerIds[0]).renderer.symbol.color = new dojo.Color( color );
-    this.map.getLayer(map.graphicsLayerIds[0]).redraw();
+    this.map.getLayer(this.map.graphicsLayerIds[0]).renderer.symbol.color = new dojo.Color( color );
+    this.map.getLayer(this.map.graphicsLayerIds[0]).redraw();
   },
   changeSize: function(size) {
-    this.map.getLayer(map.graphicsLayerIds[0]).renderer.symbol.size = size;
-    this.map.getLayer(map.graphicsLayerIds[0]).redraw();
+    this.map.getLayer(this.map.graphicsLayerIds[0]).renderer.symbol.size = size;
+    this.map.getLayer(this.map.graphicsLayerIds[0]).redraw();
   }
 });
