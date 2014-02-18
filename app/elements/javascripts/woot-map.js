@@ -108,6 +108,7 @@ Polymer('woot-map', {
 
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
+        me.map.on('layer-add', function (e) { me.fire('layer-added', e); });
         Woot = window.Woot || {};
         Woot.map = me.map;
       }
@@ -157,5 +158,9 @@ Polymer('woot-map', {
   },
   _pointClick: function(e){
     this.fire('vrbo:click', e);
+  },
+  graduateSymbols: function(attr) {
+    console.log('attr', attr);
   }
+
 });

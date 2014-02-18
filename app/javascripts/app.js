@@ -11,6 +11,9 @@ var WootController = function ($) {
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
+  styleListEl.addEventListener('graduate-symbols', onStyleListGraduateSymbol);
+  
+  mapEl.addEventListener('layer-added', onLayerAdded);
 
 
   //Private Methods
@@ -28,6 +31,22 @@ var WootController = function ($) {
 
   function onStyleListSizeChanged (e) {
     mapEl.changeSize( e.detail.msg );
+  }
+
+  function onStyleListGraduateSymbol (e) {
+    mapEl.graduateSymbols( e.detail.msg );
+  }
+
+  function onLayerAdded (layer) {
+    if ( layer.impl.detail.layer.id === "graphicsLayer1" ) {
+      var fields = layer.impl.detail.layer.fields;
+      for(var i = 0; i<fields.length;i++) {
+        var option = document.createElement("option");
+        option.innerHTML = fields[i].alias;
+        document.getElementById('graduate-symbol-list').appendChild(option);
+      }
+    }
+    //mapEl.changeSize( e.detail.msg );
   }
 };
 

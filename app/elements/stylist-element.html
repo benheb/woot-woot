@@ -100,12 +100,8 @@
           <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
 
           <h5>Graduated Symbols</h5>
-          <select class="form-control">
-            <option>Attribute</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select on-change="{{graduateSymbols}}" id="graduate-symbol-list" class="form-control">
+            <option>Select Attribute</option>
           </select>
         </div>
       </div>
