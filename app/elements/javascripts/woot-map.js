@@ -25,7 +25,6 @@ Polymer('woot-map', {
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
-        console.log('me!')
         var featureLayer = new FeatureLayer("http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0",{
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
@@ -69,5 +68,11 @@ Polymer('woot-map', {
   showMessage: function (msg) {
     //public method!
     alert(msg);
+  },
+  changeFill: function(color) {
+    console.log('color', color);
+  },
+  changeSize: function(size) {
+    console.log('size', size)
   }
 });
