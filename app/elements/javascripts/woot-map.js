@@ -4,13 +4,15 @@ Polymer('woot-map', {
   basemap: 'streets',
   webMapId: '',
   extent: '-117.03089904784932, 34.109989664938375, -116.7256851196271, 34.32518284370753',
-  //center: [-99.076, 39.132],
-  //zoom: 4,
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", 'dojo/domReady!'], 
-      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
+      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, Color, Graphic) {
+      me.SimpleLineSymbol = SimpleLineSymbol;
+      me.Color = Color;
+      me.Graphic = Graphic;
+      
       var mapOptions= {
         basemap: me.basemap
       };
@@ -19,6 +21,9 @@ Polymer('woot-map', {
         var ext = me.extent.split(',');
         mapOptions.extent = new Extent(+ext[0], +ext[1], +ext[2], +ext[3]);
       }
+
+      // create a geometry service for buffer things
+      me.gsvc = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
 
       if (me.webMapId) {
         arcgisUtils.createMap(me.webMapId, me.$.map, {mapOptions: mapOptions}).then(function(response){
@@ -121,6 +126,33 @@ Polymer('woot-map', {
     this.vrboLayer.redraw();
   },
   _lineClick: function(e){
+    this.map.graphics.clear();
+    var geometry = e.graphic.geometry;
+    var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([255,0,0]), 3);
+
+    var graphic = new this.Graphic(geometry, symbol);
+    this.map.graphics.add(graphic);
+
+      //setup the buffer parameters
+/*      var params = new BufferParameters();
+      params.distances = [ dom.byId("distance").value ];
+      params.bufferSpatialReference = new esri.SpatialReference({wkid: dom.byId("bufferSpatialReference").value});
+      params.outSpatialReference = map.spatialReference;
+      params.unit = GeometryService[dom.byId("unit").value];
+
+      if (geometry.type === "polygon") {
+        //if geometry is a polygon then simplify polygon.  This will make the user drawn polygon topologically correct.
+        gsvc.simplify([geometry], function(geometries) {
+          params.geometries = geometries;
+          gsvc.buffer(params, showBuffer);
+        });
+      } else {
+        params.geometries = [geometry];
+        gsvc.buffer(params, showBuffer);
+      }
+    }*/
+
+
     this.fire('trail:click', e);
   },
   _pointClick: function(e){
