@@ -3,7 +3,9 @@
 Polymer('woot-map', {
   basemap: 'streets',
   webMapId: '',
-  extent: '-125,25,-65,50',
+  extent: '-117.03089904784932, 34.109989664938375, -116.7256851196271, 34.32518284370753',
+  //center: [-99.076, 39.132],
+  //zoom: 4,
   map: null,
   ready: function() {
     var me = this;
@@ -25,8 +27,8 @@ Polymer('woot-map', {
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
-        console.log('me!')
-        var featureLayer = new FeatureLayer("http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0",{
+        
+        var vrboLayer = new FeatureLayer( "http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0", {
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
@@ -58,8 +60,16 @@ Polymer('woot-map', {
         }
 
         var rend = new SimpleRenderer(simpleJson);
-        featureLayer.setRenderer( rend );
-        me.map.addLayer(featureLayer);
+        vrboLayer.setRenderer( rend );
+        me.map.addLayer(vrboLayer);
+
+        var trailsLayer = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/SouthShoreTrails/FeatureServer/0", {
+          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          outFields: ["*"]
+        });
+
+        trailsLayer.setRenderer( rend );
+        me.map.addLayer( trailsLayer );
         //raise event to outside world
         me.map.on('extent-change', function () { me.fire('extent-change'); });
         window.map = me.map;
