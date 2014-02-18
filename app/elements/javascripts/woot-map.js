@@ -58,11 +58,6 @@ Polymer('woot-map', {
             }
         }
 
-        var rend = new SimpleRenderer(simpleJson);
-        me.vrboLayer.setRenderer( rend );
-        me.vrboLayer.on('click', function (e) { me.fire('layer-click', e); });
-        me.map.addLayer(me.vrboLayer);
-
         var lineJson = {
           "type": "simple",
           "symbol": {
@@ -77,23 +72,34 @@ Polymer('woot-map', {
             "style": "esriSLSSolid"
           }
         }
-
-        var trailsLayer = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/SouthShoreTrails/FeatureServer/0", {
-          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-          outFields: ["*"]
-        });
-
         var trailStyle = new SimpleRenderer(lineJson);
-        trailsLayer.setRenderer( trailStyle );
-        me.map.addLayer( trailsLayer );
 
-        var trailsLayer2 = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/ValleyFloor_Trails/FeatureServer/0", {
+
+        // Add Trail layer #1
+        me.trailsLayer = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/SouthShoreTrails/FeatureServer/0", {
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
+        me.trailsLayer.setRenderer( trailStyle );
+        me.trailsLayer.on('click', function (e) { me._lineClick(e); });
+        me.map.addLayer( me.trailsLayer );
 
-        trailsLayer2.setRenderer( trailStyle );
-        me.map.addLayer( trailsLayer2 );
+
+        // Trail Layer #2
+        me.trailsLayer2 = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/ValleyFloor_Trails/FeatureServer/0", {
+          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          outFields: ["*"]
+        });
+        me.trailsLayer2.setRenderer( trailStyle );
+        me.trailsLayer2.on('click', function (e) { me._lineClick(e); });
+        me.map.addLayer( me.trailsLayer2 );
+
+        
+        // Add VRBO Layer 
+        var rend = new SimpleRenderer(simpleJson);
+        me.vrboLayer.setRenderer( rend );
+        me.vrboLayer.on('click', function (e) { me._pointClick(e); });
+        me.map.addLayer(me.vrboLayer);
 
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
@@ -113,5 +119,11 @@ Polymer('woot-map', {
   changeSize: function(size) {
     this.vrboLayer.renderer.symbol.size = size;
     this.vrboLayer.redraw();
+  },
+  _lineClick: function(e){
+    this.fire('trail:click', e);
+  },
+  _pointClick: function(e){
+    this.fire('vrbo:click', e);
   }
 });
