@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="woot-mark-down"  attributes="text">
+  <template>
+    <style>
+      /* styles for the custom element itself - lowest specificity */
+      :host { display: block; }
+      /* 
+      style if an ancestor has the different class
+      :host(.different) { } 
+      */
+    </style>
+    <div id="markdown" part="markdown"></div>
+  </template>
+  <script>
+    Polymer('woot-mark-down', {
+      //applyAuthorStyles: true,
+      //resetStyleInheritance: true,
+
+      // element is fully prepared
+      ready: function(){ 
+        console.log('woot-mark-down')
+        this.text = this.trim(this.innerHTML);
+      },
+      textChanged: function() {
+        this.$.markdown.innerHTML = marked(this.text);
+      },
+      // instance of the element is created
+      created: function() { },
+      // instance was inserted into the document
+      enteredView: function() { },
+      // instance was removed from the document
+      leftView: function() { },
+      // attribute added, removed or updated
+      attributeChanged: function(attrName, oldVal, newVal) { },
+      trim: function(str) {
+        return str.replace(/^[^\S\n]+/gm,'');
+      }
+    });
+  </script>
+</polymer-element>
