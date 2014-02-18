@@ -1,0 +1,1 @@
+Polymer('woot-vrbo-details', {});

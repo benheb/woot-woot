@@ -2,10 +2,11 @@
 //Constructor
 var WootController = function ($) {
   //Private Variables
+  var self = this;
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
 
-  var self = this;
+
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
   mapEl.addEventListener('trail:click', onTrailLayerClicked);
 
