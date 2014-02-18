@@ -6,8 +6,8 @@ var WootController = function ($) {
   var styleListEl = document.querySelector('stylist-element');
 
   var self = this;
-  mapEl.addEventListener('vrboLayer:click', onVrboLayerClicked);
-  mapEl.addEventListener('trailLayer:click', onTrailLayerClicked);
+  mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
+  mapEl.addEventListener('trail:click', onTrailLayerClicked);
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
