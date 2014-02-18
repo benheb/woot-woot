@@ -5,8 +5,8 @@ var WootController = function ($) {
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
 
-
-  //document.querySelector('woot-map').addEventListener('', function () {});
+  var self = this;
+  mapEl.addEventListener('layer-click', function () { self.debug('layer click'); });
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
