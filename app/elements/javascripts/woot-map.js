@@ -23,11 +23,11 @@ Polymer('woot-map', {
       if (me.webMapId) {
         arcgisUtils.createMap(me.webMapId, me.$.map, {mapOptions: mapOptions}).then(function(response){
           me.map = response.map;
-          me.map.on('extent-change', function () { me.fire('extent-change'); });
+          me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
-        var vrboLayer = new FeatureLayer( "http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0", {
+        me.vrboLayer = new FeatureLayer( "http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0", {
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
@@ -59,8 +59,9 @@ Polymer('woot-map', {
         }
 
         var rend = new SimpleRenderer(simpleJson);
-        vrboLayer.setRenderer( rend );
-        me.map.addLayer(vrboLayer);
+        me.vrboLayer.setRenderer( rend );
+        //me.vrboLayer.on();
+        me.map.addLayer(me.vrboLayer);
 
         var lineJson = {
           "type": "simple",
@@ -95,7 +96,7 @@ Polymer('woot-map', {
         me.map.addLayer( trailsLayer2 );
 
         //raise event to outside world
-        me.map.on('extent-change', function () { me.fire('extent-change'); });
+        me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
         Woot = window.Woot || {};
         Woot.map = me.map;
       }
@@ -106,11 +107,11 @@ Polymer('woot-map', {
     alert(msg);
   },
   changeFill: function(color) {
-    this.map.getLayer(this.map.graphicsLayerIds[0]).renderer.symbol.color = new dojo.Color( color );
-    this.map.getLayer(this.map.graphicsLayerIds[0]).redraw();
+    this.vrboLayer.renderer.symbol.color = new dojo.Color( color );
+    this.vrboLayer.redraw();
   },
   changeSize: function(size) {
-    this.map.getLayer(this.map.graphicsLayerIds[0]).renderer.symbol.size = size;
-    this.map.getLayer(this.map.graphicsLayerIds[0]).redraw();
+    this.vrboLayer.renderer.symbol.size = size;
+    this.vrboLayer.redraw();
   }
 });
