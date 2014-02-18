@@ -39,7 +39,7 @@ var WootController = function ($) {
   }
 
   function onLayerAdded (layer) {
-    if ( layer.impl.detail.layer.id === "graphicsLayer1" ) {
+    if ( layer.impl.detail.layer.id === "graphicsLayer3" ) {
       var fields = layer.impl.detail.layer.fields;
       for(var i = 0; i<fields.length;i++) {
         var option = document.createElement("option");
