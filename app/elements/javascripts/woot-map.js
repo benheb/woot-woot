@@ -105,9 +105,11 @@ Polymer('woot-map', {
     alert(msg);
   },
   changeFill: function(color) {
-    console.log('color', color);
+    this.map.getLayer(map.graphicsLayerIds[0]).renderer.symbol.color = new dojo.Color( color );
+    this.map.getLayer(map.graphicsLayerIds[0]).redraw();
   },
   changeSize: function(size) {
-    console.log('size', size)
+    this.map.getLayer(map.graphicsLayerIds[0]).renderer.symbol.size = size;
+    this.map.getLayer(map.graphicsLayerIds[0]).redraw();
   }
 });
