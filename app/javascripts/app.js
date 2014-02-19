@@ -42,7 +42,7 @@ var WootController = function ($) {
     //self.debug('inside points')
     //self.debug(e.detail);
     //console.log(JSON.stringify(e.detail));
-    // var data = DataMuncher.aggregateProperties(e.detail);
+    var olddata = DataMuncher.aggregateProperties(e.detail);
     
     // //pass bedrooms to pie chart
     // //pieChartEl.values = data.Bedrooms.values;
@@ -50,9 +50,9 @@ var WootController = function ($) {
     // bedroomsChartEl.labels = data.Bedrooms.keys;
     // bedroomsChartEl._update();
 
-    // bathroomsChartEl.values = [ data.Bathrooms.values ];
-    // bathroomsChartEl.labels = data.Bathrooms.keys;
-    // bathroomsChartEl._update();
+    bathroomsChartEl.values = [ olddata.Bathrooms.values ];
+    bathroomsChartEl.labels = olddata.Bathrooms.keys;
+    bathroomsChartEl._update();
 
     // sleepsChartEl.values = [ data.Sleeps.values ];
     // sleepsChartEl.labels = data.Sleeps.keys;
