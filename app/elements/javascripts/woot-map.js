@@ -193,42 +193,25 @@ Polymer('woot-map', {
         new this.Color([149, 165, 166, 0.60])
       );
 
-      var pntSymbol = new this.SimpleMarkerSymbol(
-        this.SimpleMarkerSymbol.STYLE_CIRCLE, 15, 
-        new this.SimpleLineSymbol(
-          this.SimpleLineSymbol.STYLE_SOLID, 
-          new this.Color([241, 196, 15, .35]), 2
-        ), 
-        new this.Color([255, 255, 55, 200])
-      );
-
       this.insidePoints = []; 
-      var pntGraphic, buffer;
+      var node, buffer;
 
       bufferedGeometries.forEach(function(geometry) {
         buffer = new me.Graphic(geometry, symbol);
         me.bufferLayer.add( buffer );
 
         me.vrboLayer.graphics.forEach(function(point){
+          node = point.getNode();
           if (geometry.contains(point.geometry)){
-            var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
-            var node = point.getNode();
             node.classList.add('selected');
             me.insidePoints.push( point.attributes );
-            //me.map.graphics.add( pntGraphic );
+          } else {
+            node.classList.remove('selected');
           }
         });
         me.fire('buffer:points', me.insidePoints);
       });
   }, 
-
-  addClass: function (classString, newClass) {
-
-  },
-
-  removeClass: function (classString, removeClass) {
-
-  },
 
   graduateSymbols: function(attr) {
     var self = this;
