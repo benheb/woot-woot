@@ -7,7 +7,7 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleFillSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'esri/renderers/SimpleRenderer', 'esri/layers/FeatureLayer', 'esri/tasks/GeometryService', 'esri/tasks/BufferParameters', 'esri/symbols/SimpleLineSymbol','esri/symbols/SimpleFillSymbol', 'dojo/_base/Color', 'esri/graphic', 'dojo/domReady!'], 
       function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic) {
       me.BufferParameters = BufferParameters;
       me.GeometryService = GeometryService;
@@ -26,7 +26,7 @@ Polymer('woot-map', {
       }
 
       // create a geometry service for buffer things
-      me.gsvc = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+      me.gsvc = new GeometryService('http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
 
       if (me.webMapId) {
         arcgisUtils.createMap(me.webMapId, me.$.map, {mapOptions: mapOptions}).then(function(response){
@@ -35,9 +35,9 @@ Polymer('woot-map', {
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
-        me.vrboLayer = new FeatureLayer( "http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0", {
+        me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-          outFields: ["*"]
+          outFields: ['*']
         });
 
         var simpleJson = {
@@ -64,7 +64,7 @@ Polymer('woot-map', {
                     "width": 0
                 }
             }
-        }
+        };
 
         var lineJson = {
           "type": "simple",
@@ -74,7 +74,7 @@ Polymer('woot-map', {
             "type": "esriSLS",
             "style": "esriSLSSolid"
           }
-        }
+        };
         var trailStyle = new SimpleRenderer(lineJson);
 
 
