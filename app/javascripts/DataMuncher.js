@@ -77,6 +77,20 @@ var DataMuncher = {
     return price;
 
 
+  },
+
+  /**
+   * Normalize an array of data values to 
+   * @param  {[type]} inArray [description]
+   * @return {[type]}         [description]
+   */
+  percentify: function(inArray){
+    var ratio = Math.max.apply(this, inArray) / 100;
+
+    var numbers = inArray.map(function (v) {
+      return Math.round( v / ratio );
+    });
+    return numbers;
   }
 
 };

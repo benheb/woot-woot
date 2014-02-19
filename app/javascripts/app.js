@@ -47,6 +47,10 @@ var WootController = function ($) {
     lineChartEl.values = [ data.Bedrooms.values ];
     lineChartEl.labels = data.Bedrooms.keys;
     lineChartEl._update();
+    //percentify the bathrooms
+    var pieData = DataMuncher.percentify(data.Bathrooms.values);
+    pieChartEl.values = pieData;
+    pieChartEl._update();
 
   }
 
