@@ -7,7 +7,15 @@
       :host { display: block; }
       #chartscatter {
         width:400px;
-        height:400px;
+        height:220px;
+        overflow:hidden;
+        padding-bottom:20px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        margin: 15px;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 13px -1px #444;
       }
       .axis path,
       .axis line {
@@ -36,8 +44,8 @@
       ready: function(){
         var me = this;
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            width = 340;
+            height = 150;
 
         var x = d3.scale.linear()
             .range([0, width]);
@@ -54,16 +62,14 @@
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left");
-        var node = me.$.chartscatter;
-        console.log('node : ' + node);
-        var svg = d3.select(node).append("svg")
+        var svg = d3.select(this.$.chartscatter).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+        
         d3.tsv("data/data.tsv", function(error, data) {
-          console.log('data', data)
+          
           data.forEach(function(d) {
             d.sepalLength = +d.sepalLength;
             d.sepalWidth = +d.sepalWidth;
@@ -101,7 +107,19 @@
               .attr("r", 3.5)
               .attr("cx", function(d) { return x(d.sepalWidth); })
               .attr("cy", function(d) { return y(d.sepalLength); })
-              .style("fill", function(d) { return color(d.species); });
+              .style("fill", function(d) { return color(d.species); })
+              .on('mouseover', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', 5)
+              })
+              .on('mouseout', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', 3.5)
+              });
 
           var legend = svg.selectAll(".legend")
               .data(color.domain())
