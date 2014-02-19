@@ -234,16 +234,14 @@ module.exports = function (grunt) {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
         },
-        build_gh_pages: {
-            gh_pages: {
-              // Leave empty if you just want to run the defaults
+        grunt.initConfig({
+          'gh-pages': {
+            options: {
+              base: 'dist'
             },
-            production: {
-              options: {
-
-              }
-            }
-          }     
+            src: '**/*'
+          }
+        }); 
     });
     grunt.loadNpmTasks('grunt-gh-pages');
 
@@ -296,4 +294,9 @@ module.exports = function (grunt) {
         // 'test'
         'build'
     ]);
+    // grunt.registerTask("deploy", [
+    //     'clean',
+    //     'copy',
+    //     'grunt-gh-pages'
+    // ]);    
 };
