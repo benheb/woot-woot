@@ -187,17 +187,23 @@ Polymer('woot-map', {
   }, 
 
   graduateSymbols: function(attr) {
+    var self = this;
     var renderer = this.vrboLayer.renderer;
+    console.log('this.vrboLayer', this.vrboLayer);
+    var min = 0, max = 0;
+    for ( var i = 0; i < this.vrboLayer.graphics.length; i++ ) {
+      var val = self.vrboLayer.graphics[ i ].attributes[ attr ];
+      if ( val < min ) { min = val }
+      if ( val > max ) { max = val }
+      if ( val > 0 && max === 0 ) { max = val }
+    }
     renderer.setProportionalSymbolInfo({
       field: attr,
       minSize: 2,
-      maxSize: 20,
-      minDataValue: 0,
-      maxDataValue: 5,
-      valueUnit: "unknown",
-      legendOptions: {
-        customValues: [0, 1, 2, 3, 4]
-      }
+      maxSize: 25,
+      minDataValue: Math.round(parseInt(min)),
+      maxDataValue: Math.round(parseInt(max)),
+      valueUnit: "unknown"
     });
     this.vrboLayer.redraw();
   }
