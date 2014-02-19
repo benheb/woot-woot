@@ -1,3 +1,5 @@
+'use strict';
+
 
 //Constructor
 var WootController = function ($) {
@@ -40,10 +42,10 @@ var WootController = function ($) {
   }
 
   function onLayerAdded (layer) {
-    if ( layer.impl.detail.layer.id === "graphicsLayer3" ) {
+    if ( layer.impl.detail.layer.id === 'graphicsLayer3' ) {
       var fields = layer.impl.detail.layer.fields;
       for(var i = 0; i<fields.length;i++) {
-        var option = document.createElement("option");
+        var option = document.createElement('option');
         option.innerHTML = fields[i].alias;
         document.getElementById('graduate-symbol-list').appendChild(option);
       }
@@ -56,4 +58,4 @@ var WootController = function ($) {
 //Public Methods
 WootController.prototype.debug = function (msg) {
   console.debug(msg);
-}
+};
