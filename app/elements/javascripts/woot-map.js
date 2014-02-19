@@ -7,9 +7,12 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
-      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, Color, Graphic) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleFillSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
+      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic) {
+      me.BufferParameters = BufferParameters;
+      me.GeometryService = GeometryService;
       me.SimpleLineSymbol = SimpleLineSymbol;
+      me.SimpleFillSymbol = SimpleFillSymbol;
       me.Color = Color;
       me.Graphic = Graphic;
       
@@ -66,12 +69,7 @@ Polymer('woot-map', {
         var lineJson = {
           "type": "simple",
           "symbol": {
-            "color": [
-              247,
-              150,
-              70,
-              204
-            ],
+            "color": [39, 174, 96, 150],
             "width": 2,
             "type": "esriSLS",
             "style": "esriSLSSolid"
@@ -126,6 +124,7 @@ Polymer('woot-map', {
     this.vrboLayer.redraw();
   },
   _lineClick: function(e){
+    var me = this;
     this.map.graphics.clear();
     var geometry = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([255,0,0]), 3);
@@ -133,29 +132,37 @@ Polymer('woot-map', {
     var graphic = new this.Graphic(geometry, symbol);
     this.map.graphics.add(graphic);
 
-      //setup the buffer parameters
-/*      var params = new BufferParameters();
-      params.distances = [ dom.byId("distance").value ];
-      params.bufferSpatialReference = new esri.SpatialReference({wkid: dom.byId("bufferSpatialReference").value});
-      params.outSpatialReference = map.spatialReference;
-      params.unit = GeometryService[dom.byId("unit").value];
-
-      if (geometry.type === "polygon") {
-        //if geometry is a polygon then simplify polygon.  This will make the user drawn polygon topologically correct.
-        gsvc.simplify([geometry], function(geometries) {
-          params.geometries = geometries;
-          gsvc.buffer(params, showBuffer);
-        });
-      } else {
-        params.geometries = [geometry];
-        gsvc.buffer(params, showBuffer);
-      }
-    }*/
-
+    //setup the buffer parameters
+    var params = new this.BufferParameters();
+    params.distances = [ 1000 ];
+    params.bufferSpatialReference = new esri.SpatialReference({wkid: 102100});
+    params.outSpatialReference = map.spatialReference;
+    params.unit = this.GeometryService['UNIT_METER'];
+    params.geometries = [geometry];
+    this.gsvc.buffer(params, function(geoms) { 
+      me._showBuffer(geoms);
+    });
 
     this.fire('trail:click', e);
   },
   _pointClick: function(e){
     this.fire('vrbo:click', e);
+  },
+
+  _showBuffer: function( bufferedGeometries ) {
+      var me = this;
+      var symbol = new this.SimpleFillSymbol(
+        this.SimpleFillSymbol.STYLE_SOLID,
+        new this.SimpleLineSymbol(
+          this.SimpleLineSymbol.STYLE_SOLID,
+          new this.Color([241, 196, 15, 0.65 ]), 2
+        ),
+        new this.Color([241, 196, 15, 0.35])
+      );
+
+      bufferedGeometries.forEach(function(geometry) {
+        var graphic = new me.Graphic(geometry, symbol);
+        me.map.graphics.add(graphic);
+      });
   }
 });
