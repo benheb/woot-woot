@@ -106,6 +106,9 @@ polymer-ui-ratings #star {
   padding-bottom: 10px;
   border-bottom: 2px solid gray;
 }
+.vrbo-list-item:last-child {
+  border-bottom: none;
+}
 .vrbo-list-item img {
   float: left;
   width: 40px;
