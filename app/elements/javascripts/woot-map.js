@@ -86,6 +86,7 @@ Polymer('woot-map', {
 
         // Add Trail layer #1
         me.trailsLayer = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/SouthShoreTrails/FeatureServer/0", {
+          className: 'trails',
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
@@ -96,6 +97,7 @@ Polymer('woot-map', {
 
         // Trail Layer #2
         me.trailsLayer2 = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/ValleyFloor_Trails/FeatureServer/0", {
+          className: 'trails',
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
