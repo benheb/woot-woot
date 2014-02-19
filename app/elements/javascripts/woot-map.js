@@ -144,9 +144,11 @@ Polymer('woot-map', {
   },
   selectVrbo: function (id) {
     //TODO: implement this!
+    Woot.controller.debug('selectVrbo');
   },
   deselectVrbo: function () {
     //TODO: implement this!
+    Woot.controller.debug('deselectVrbo');
   },
   _lineClick: function(e){
     var me = this;
@@ -204,13 +206,23 @@ Polymer('woot-map', {
         me.vrboLayer.graphics.forEach(function(point){
           if (geometry.contains(point.geometry)){
             var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
+            var node = point.getNode();
+            node.classList.add('selected');
             me.insidePoints.push( point.attributes );
-            me.map.graphics.add( pntGraphic );
+            //me.map.graphics.add( pntGraphic );
           }
         });
         me.fire('buffer:points', me.insidePoints);
       });
   }, 
+
+  addClass: function (classString, newClass) {
+
+  },
+
+  removeClass: function (classString, removeClass) {
+
+  },
 
   graduateSymbols: function(attr) {
     console.log("graduateSymbols", attr)

@@ -86,6 +86,10 @@ circle:hover {
   width:100%;
 }
 
+circle.selected {
+  fill: rgb(255,215,120);
+}
+
 @media (max-width: 600px) {
   #map {
     height:70% !important;
