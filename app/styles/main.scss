@@ -121,6 +121,8 @@ circle.selected {
 
 circle.selected.hilighted {
   fill: rgb(255,165,70);
+  stroke: rgb(255, 215, 120);
+  stroke-width: 2;
 }
 
 @media (max-width: 600px) {
