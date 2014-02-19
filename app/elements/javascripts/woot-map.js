@@ -49,9 +49,10 @@ Polymer('woot-map', {
         me.map.addLayer( me.bufferLayer );
 
         me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
-          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          mode: esri.layers.FeatureLayer.MODE_SNAPSHOT,
           outFields: ['*']
         });
+        me.vrboLayer.on('update-end', function () { me.onVrboLayerUpdated(); });
 
         var simpleJson = {
             "type": "simple",
@@ -132,6 +133,13 @@ Polymer('woot-map', {
         me.map.on('layer-add', function (e) { me.fire('layer-added', e); });
         Woot = window.Woot || {};
         Woot.map = me.map;
+      }
+    });
+  },
+  onVrboLayerUpdated: function () {
+    this.vrboLayer.graphics.forEach(function(point){
+      if (point.attributes.AverageReview == 45) {
+        point.attributes.AverageReview = 4.5;
       }
     });
   },
