@@ -1,5 +1,19 @@
 var DataMuncher = {
   
+  scatterData: function(graphics){
+    var data = [];
+    var self = this;
+    graphics.forEach(function(g){
+      var price = self._parsePrice(g.PriceRange);
+      data.push({id: g.id, 
+        sleeps: parseInt(g.Sleeps), 
+        bedrooms: parseInt(g.Bedrooms), 
+        minPrice: price.min, 
+        maxPrice: price.max });
+    });
+    return data;
+  },
+
   /**
    * Aggregate an array of Graphics into chartable data
    * - parse price

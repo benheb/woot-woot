@@ -11,6 +11,7 @@ var WootController = function ($) {
   var bathroomsChartEl = document.querySelector('#bathrooms');
   var bedroomsChartEl = document.querySelector('#bedrooms');
   var sleepsChartEl = document.querySelector('#sleeps');
+  var scatterEl = document.querySelector('woot-scatter-chart');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
@@ -41,21 +42,25 @@ var WootController = function ($) {
     //self.debug('inside points')
     //self.debug(e.detail);
     //console.log(JSON.stringify(e.detail));
-    var data = DataMuncher.aggregateProperties(e.detail);
+    var olddata = DataMuncher.aggregateProperties(e.detail);
     
-    //pass bedrooms to pie chart
-    //pieChartEl.values = data.Bedrooms.values;
-    bedroomsChartEl.values = [ data.Bedrooms.values ];
-    bedroomsChartEl.labels = data.Bedrooms.keys;
-    bedroomsChartEl._update();
+    // //pass bedrooms to pie chart
+    // //pieChartEl.values = data.Bedrooms.values;
+    // bedroomsChartEl.values = [ data.Bedrooms.values ];
+    // bedroomsChartEl.labels = data.Bedrooms.keys;
+    // bedroomsChartEl._update();
 
-    bathroomsChartEl.values = [ data.Bathrooms.values ];
-    bathroomsChartEl.labels = data.Bathrooms.keys;
+    bathroomsChartEl.values = [ olddata.Bathrooms.values ];
+    bathroomsChartEl.labels = olddata.Bathrooms.keys;
     bathroomsChartEl._update();
 
-    sleepsChartEl.values = [ data.Sleeps.values ];
-    sleepsChartEl.labels = data.Sleeps.keys;
-    sleepsChartEl._update();
+    // sleepsChartEl.values = [ data.Sleeps.values ];
+    // sleepsChartEl.labels = data.Sleeps.keys;
+    // sleepsChartEl._update();
+    // 
+    var data = DataMuncher.scatterData(e.detail);
+    scatterEl.update(data);
+
   }
 
   function onStyleListColorChanged (e) {

@@ -1,24 +1,155 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<polymer-element name="polymer-woot-scatter-chart"  attributes="">
+<polymer-element name="woot-scatter-chart"  attributes="">
   <template>
     <style>
       /* styles for the custom element itself - lowest specificity */
       :host { display: block; }
+      #chartscatter {
+        width:400px;
+        height:220px;
+        overflow:hidden;
+        padding-bottom:20px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        margin: 15px;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 13px -1px #444;
+        float:left;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .dot {
+        stroke: #000;
+      }
+
       /* 
       style if an ancestor has the different class
       :host(.different) { } 
       */
     </style>
-    <span>I'm <b>polymer-wootScatterChart</b>. This is my Shadow DOM.</span>
+    <div id="chartscatter">
+      <h5>Select a Trail</h5>
+    </div>
   </template>
   <script>
-    Polymer('polymer-woot-scatter-chart', {
+    Polymer('woot-scatter-chart', {
       //applyAuthorStyles: true,
       //resetStyleInheritance: true,
 
       // element is fully prepared
-      ready: function(){ },
+      ready: function() {
+
+      },
+      update: function(data){
+        this.$.chartscatter.innerHTML = "";
+        console.log('data', data);
+        var me = this;
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 340;
+            height = 150;
+
+        var x = d3.scale.linear()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var color = d3.scale.category10();
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+        var svg = d3.select(this.$.chartscatter).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        //d3.tsv("data/data.tsv", function(error, data) {
+          
+          data.forEach(function(d) {
+            d.bedrooms = +d.bedrooms;
+            d.minPrice = +d.minPrice;
+          });
+
+          x.domain(d3.extent(data, function(d) { return d.bedrooms; })).nice();
+          y.domain(d3.extent(data, function(d) { return d.minPrice; })).nice();
+
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis)
+            .append("text")
+              .attr("class", "label")
+              .attr("x", width)
+              .attr("y", -6)
+              .style("text-anchor", "end")
+              .text("# Bedrooms");
+
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+            .append("text")
+              .attr("class", "label")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Min Price ($)")
+
+          svg.selectAll(".dot")
+              .data(data)
+            .enter().append("circle")
+              .attr("class", "dot")
+              .attr("r", function(d) { return d.bedrooms * 2 })
+              .attr("cx", function(d) { return x(d.bedrooms); })
+              .attr("cy", function(d) { return y(d.minPrice); })
+              .style("fill", '#6d8ca0')
+              .on('mouseover', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', function(d) { return d.bedrooms * 2.5 })
+              })
+              .on('mouseout', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', function(d) { return d.bedrooms * 2 })
+              });
+
+          var legend = svg.selectAll(".legend")
+              .data(color.domain())
+            .enter().append("g")
+              .attr("class", "legend")
+              .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+          legend.append("rect")
+              .attr("x", width - 18)
+              .attr("width", 18)
+              .attr("height", 18)
+              .style("fill", color);
+
+          legend.append("text")
+              .attr("x", width - 24)
+              .attr("y", 9)
+              .attr("dy", ".35em")
+              .style("text-anchor", "end")
+              .text(function(d) { return d; });
+
+        //});
+      },
       // instance of the element is created
       created: function() { },
       // instance was inserted into the document
