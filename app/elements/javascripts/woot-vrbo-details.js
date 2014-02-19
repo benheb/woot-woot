@@ -1,3 +1,5 @@
+'use strict';
+
 Polymer('woot-vrbo-details', {
   update: function (attributes) {
     for (var p in attributes) {
