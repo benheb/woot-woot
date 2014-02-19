@@ -50,7 +50,6 @@
 
       },
       update: function(data){
-        var self = this;
         this.$.chartscatter.innerHTML = "";
         this.$.chartscatter.style.display = "block";
         var xAttr = 'distance';
@@ -134,9 +133,6 @@
                   .duration(200)
                     .attr('r', function(d) { return d.Bedrooms * 2 })
               })
-              .on('click', function(d) {
-                self._nodeSelected(d);
-              })
               .transition()
               .duration(1000)
               .attr("cx", function(d) { return x(d[xAttr]); })
@@ -162,9 +158,6 @@
               .text(function(d) { return d; });
 
         //});
-      },
-      _nodeSelected: function(d) {
-        this.fire('scatter-selected', {msg: d});
       },
       // instance of the element is created
       created: function() { },
