@@ -23,16 +23,15 @@ var WootController = function ($) {
 
   //Private Methods
   function onVrboLayerClicked (e) {
-    detailsEl.update('vrbo', e.detail.graphic.attributes);
+    detailsEl.updateVrbo(e.detail.graphic.attributes);
   }
 
   function onTrailLayerClicked (e) {
-    detailsEl.update('trail', e.detail.graphic.attributes);
+    detailsEl.updateTrail(e.detail.graphic.attributes);
   }
 
   function onBufferPoints ( e ) {
-    self.debug('inside points')
-    self.debug(e.detail);
+    detailsEl.updateTrail(null, e.detail);
   }
 
   function onStyleListColorChanged (e) {

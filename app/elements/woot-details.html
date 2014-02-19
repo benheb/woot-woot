@@ -45,6 +45,12 @@
       <template if="{{trail}}">
         <div>
           <h4>{{Name}}</h4>
+          <h5>Nearby listings:</h5>
+          <template repeat="{{vrbos}}">
+            <div>
+              {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms, Average review: {{AverageReview}}
+            </div>
+          </template>
         </div>
       </template>
 
