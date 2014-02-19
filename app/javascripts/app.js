@@ -12,6 +12,7 @@ var WootController = function ($) {
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
   mapEl.addEventListener('trail:click', onTrailLayerClicked);
+  mapEl.addEventListener('buffer:points', onBufferPoints);
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
@@ -27,6 +28,10 @@ var WootController = function ($) {
 
   function onTrailLayerClicked (e) {
     self.debug('onTrailLayerClicked is not implemented!');
+  }
+
+  function onBufferPoints ( points ) {
+    self.debug('onBufferPoints is not implemented!', points);
   }
 
   function onStyleListColorChanged (e) {
