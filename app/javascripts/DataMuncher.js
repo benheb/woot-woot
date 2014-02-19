@@ -21,7 +21,7 @@ var DataMuncher = {
         }
         if(g[fieldName]){
           //get the lable (aka the value)
-          label = g[fieldName];
+          label = parseFloat(g[fieldName]);
           //console.log('Field: ' + fieldName + ' label: ' + label);
           if( graphable[fieldName] && graphable[fieldName][label] ){
             graphable[fieldName][label] = graphable[fieldName][label] + 1;

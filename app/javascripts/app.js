@@ -8,8 +8,9 @@ var WootController = function ($) {
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
   var detailsEl = document.querySelector('woot-details');
-  var lineChartEl = document.querySelector('chart-line');
-  var pieChartEl = document.querySelector('chart-pie');
+  var bathroomsChartEl = document.querySelector('#bathrooms');
+  var bedroomsChartEl = document.querySelector('#bedrooms');
+  var sleepsChartEl = document.querySelector('#sleeps');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
@@ -44,14 +45,17 @@ var WootController = function ($) {
     
     //pass bedrooms to pie chart
     //pieChartEl.values = data.Bedrooms.values;
-    lineChartEl.values = [ data.Bedrooms.values ];
-    lineChartEl.labels = data.Bedrooms.keys;
-    lineChartEl._update();
-    //percentify the bathrooms
-    var pieData = DataMuncher.percentify(data.Bathrooms.values);
-    pieChartEl.values = pieData;
-    pieChartEl._update();
+    bedroomsChartEl.values = [ data.Bedrooms.values ];
+    bedroomsChartEl.labels = data.Bedrooms.keys;
+    bedroomsChartEl._update();
 
+    bathroomsChartEl.values = [ data.Bathrooms.values ];
+    bathroomsChartEl.labels = data.Bathrooms.keys;
+    bathroomsChartEl._update();
+
+    sleepsChartEl.values = [ data.Sleeps.values ];
+    sleepsChartEl.labels = data.Sleeps.keys;
+    sleepsChartEl._update();
   }
 
   function onStyleListColorChanged (e) {

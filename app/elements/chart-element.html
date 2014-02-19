@@ -1,7 +1,7 @@
 
 <!-- Pie -->
 
-<polymer-element name="chart-pie" attributes="values colors height width">
+<polymer-element name="chart-pie" attributes="values colors height width chartTitle">
   <template>
     <style>
       #pie-chart-element-container {
@@ -20,13 +20,14 @@
       }
     </style>
     <div id="pie-chart-element-container">
-      <h5>Charts</h5>
+      <h5>{{chartTitle}}</h5>
       <canvas id="canvas" width="200" height="175"></canvas>
     </div>
   </template>
   <script>
     Polymer("chart-pie", {
       ready: function () {
+        console.log(this.chartTitle + ' IS THE TITLE');
         this.ctx = this.$.canvas.getContext('2d');
         this.chart = new Chart(this.ctx);
         this._update();
@@ -99,11 +100,11 @@
 
 <!-- Line -->
 
-<polymer-element name="chart-line" attributes="labels values colors">
+<polymer-element name="chart-line" attributes="labels values colors chartTitle">
   <template>
     <style>
     #line-chart-element-container {
-        width:400px;
+        width:330px;
         height:220px;
         overflow:hidden;
         padding-bottom:20px;
@@ -118,7 +119,7 @@
       }
     </style>
     <div id="line-chart-element-container">
-      <h5>Charts</h5>
+      <h5>{{chartTitle}}</h5>
       <canvas id="canvas" ></canvas>
     </div>
   </template>
