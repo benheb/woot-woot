@@ -27,6 +27,12 @@ html, body, #map {
   z-index: 100;
 }
 
+woot-vrbo-details img {
+  width: 100%;
+  border: solid 2px gray;
+  border-radius: 4px;
+}
+
 #elements-right {
   position:absolute;
   top: 60px;
