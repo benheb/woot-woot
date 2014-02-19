@@ -58,8 +58,8 @@ var WootController = function ($) {
     // sleepsChartEl.labels = data.Sleeps.keys;
     // sleepsChartEl._update();
     // 
-    var data = DataMuncher.scatterData(e.detail);
-    scatterEl.update(data);
+    //var data = DataMuncher.scatterData(e.detail);
+    scatterEl.update(e.detail);
 
   }
 
