@@ -140,11 +140,45 @@ Polymer('woot-map', {
     });
   },
   onVrboLayerUpdated: function () {
+    var self = this;
     this.vrboLayer.graphics.forEach(function(point){
       if (point.attributes.AverageReview == 45) {
         point.attributes.AverageReview = 4.5;
       }
+      var priceObj = self._parsePrice(point.PriceRange);
+      point.attributes.minPrice = priceObj.min;
+      point.attributes.maxPrice = priceObj.max;
+      point.attributes.Bedrooms = parseInt(point.attributes.Bedrooms);
+      point.attributes.Sleeps   = parseInt(point.attributes.Sleeps);
+
     });
+  },
+    /**
+   * parse the price values from 
+   * @param  {[type]} priceString [description]
+   * @return {[type]}             [description]
+   */
+  _parsePrice: function(priceString){
+
+
+    var noDollars = priceString.replace(/\$/g,'');
+    var parts = noDollars.split(' ');
+    var price ={min:0, max:0};
+    parts.forEach(function(part){
+
+      if(parseInt(part)){
+        var num = parseInt(part);
+        if(price.min === 0){
+          price.min = num;
+        }else{
+          price.max = num;
+        }
+      }
+    });
+
+    return price;
+
+
   },
   showMessage: function (msg) {
     //public method!
