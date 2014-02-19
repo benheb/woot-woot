@@ -15,7 +15,7 @@
         }
       </style>
       
-      <template if="{{RegionName}}">
+      <template if="{{vrbo}}">
         <div>
           <h4>Listing Details</h4>
           <dl>
@@ -28,6 +28,13 @@
             <dt>Region:</dt><dd>{{RegionName}}</dd>
             <dt>Photo:</dt><dd><img src="{{ImageURL}}" /></dd>
           </dl>
+        </div>
+      </template>
+
+      <template if="{{trail}}">
+        <div>
+          <h4>Trail Details</h4>
+          
         </div>
       </template>
 

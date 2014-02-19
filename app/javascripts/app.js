@@ -7,7 +7,7 @@ var WootController = function ($) {
   var self = this;
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
-  var vrboDetailsEl = document.querySelector('woot-details');
+  var detailsEl = document.querySelector('woot-details');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
@@ -23,11 +23,11 @@ var WootController = function ($) {
 
   //Private Methods
   function onVrboLayerClicked (e) {
-    vrboDetailsEl.update(e.detail.graphic.attributes);
+    detailsEl.update('vrbo', e.detail.graphic.attributes);
   }
 
   function onTrailLayerClicked (e) {
-    self.debug('onTrailLayerClicked is not implemented!');
+    detailsEl.update('trail', e.detail.graphic.attributes);
   }
 
   function onBufferPoints ( points ) {
