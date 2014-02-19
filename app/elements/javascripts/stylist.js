@@ -68,6 +68,11 @@ Polymer('stylist-element', {
   //update the main style object and alert UI
   updateStyle: function() {
     this.fire('style-changed', {msg: this.outputStyle});
+  },
+
+  //graduate symbols
+  graduateSymbols: function(e) {
+    this.fire('graduate-symbols', {msg: e.impl.target.value});
   }
 
 });

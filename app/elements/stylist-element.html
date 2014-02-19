@@ -3,7 +3,7 @@
     <template>
       <style>
         #stylist-element-container {
-          width:400px;
+          width:auto;
           height:300px;
           overflow:hidden;
           padding-bottom:20px;
@@ -98,11 +98,12 @@
 
           <h5>Marker Size</h5>
           <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
-        </div>
-        <div id="stylist-right">
-          <h5>Graduated Symbols</h5>
-        </div>
 
+          <h5>Graduated Symbols</h5>
+          <select on-change="{{graduateSymbols}}" id="graduate-symbol-list" class="form-control">
+            <option>Select Attribute</option>
+          </select>
+        </div>
       </div>
       
     </template>

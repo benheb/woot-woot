@@ -106,6 +106,7 @@ Polymer('woot-map', {
 
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
+        me.map.on('layer-add', function (e) { me.fire('layer-added', e); });
         Woot = window.Woot || {};
         Woot.map = me.map;
       }
@@ -127,7 +128,7 @@ Polymer('woot-map', {
     var me = this;
     this.map.graphics.clear();
     var geometry = e.graphic.geometry;
-    var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([255,0,0]), 3);
+    var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
 
     var graphic = new this.Graphic(geometry, symbol);
     this.map.graphics.add(graphic);
@@ -164,5 +165,23 @@ Polymer('woot-map', {
         var graphic = new me.Graphic(geometry, symbol);
         me.map.graphics.add(graphic);
       });
+  }, 
+
+  graduateSymbols: function(attr) {
+    console.log('attr', attr);
+    var renderer = this.vrboLayer.renderer;
+    renderer.setProportionalSymbolInfo({
+      field: attr,
+      minSize: 2,
+      maxSize: 20,
+      minDataValue: 0,
+      maxDataValue: 5,
+      valueUnit: "unknown",
+      legendOptions: {
+        customValues: [0, 1, 2, 3, 4]
+      }
+    });
+    this.vrboLayer.redraw();
   }
+
 });

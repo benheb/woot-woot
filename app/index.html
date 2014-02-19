@@ -27,6 +27,7 @@
         <link rel="import" href="elements/woot-map.html">
         <link rel="import" href="elements/stylist-element.html">
         <link rel="import" href="elements/chart-element.html">
+        <link rel="import" href="elements/woot-vrbo-details.html">
     </head>
     <body>
 
@@ -44,12 +45,17 @@
         </div>
       </div>
       <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
-      
+
       <div id="elements-bottom">
         <stylist-element ramps="three" format="esri" type="point"></stylist-element>
         <chart-element></chart-element>    
       </div>
-        
+
+
+      <div id="elements-right">
+        <woot-vrbo-details></woot-vrbo-details>   
+      </div>
+
 
       <polymer-woot-mark-down></polymer-woot-mark-down>
 
