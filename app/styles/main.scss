@@ -29,18 +29,12 @@ html, body {
   width:100%;
 }
 
-woot-details img {
-  width: 100%;
-  border: solid 2px gray;
-  border-radius: 4px;
-}
-
 #elements-right {
   position:absolute;
   top: 25px;
   bottom: 25px;
   right: 10px;
-  width: 250px;
+  width: 280px;
   z-index: 100;
 }
 
@@ -86,8 +80,35 @@ circle:hover {
   margin-right:5px;
 }
 
-.image-dd {
-  width:100%;
+.image-dd img {
+  width: 100%;
+  border: solid 2px gray;
+  border-radius: 4px;
+}
+
+polymer-ui-ratings {
+  width: 100%;
+  text-align: center;
+}
+
+polymer-ui-ratings #star {
+  width: 28px;
+  height: 28px;
+}
+
+.vrbo-list-item {
+  float:left;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid gray;
+}
+.vrbo-list-item img {
+  float: left;
+  width: 40px;
+}
+.vrbo-list-item-details{
+  float: left;
+  padding-left: 10px;
 }
 
 circle.selected {
