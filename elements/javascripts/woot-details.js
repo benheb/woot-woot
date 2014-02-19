@@ -25,7 +25,7 @@ Polymer('woot-details', {
     this.updateAttributes(attributes);
     this.trail = true;
     if (vrbos) {
-      this.vrbos = vrbos;
+      this.vrbos = vrbos.sort(function(a,b){return a.distance - b.distance});
     }
   },
   onMouseOver: function (e, detail, sender) {
