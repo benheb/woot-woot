@@ -98,7 +98,7 @@
               .attr("x", width)
               .attr("y", -6)
               .style("text-anchor", "end")
-              .text("# Bedrooms");
+              .text("Distance (mi)");
 
           svg.append("g")
               .attr("class", "y axis")
@@ -115,7 +115,7 @@
               .data(data)
             .enter().append("circle")
               .attr("class", "dot")
-              .attr("r", function(d) { return 2 })
+              .attr("r", function(d) { return d.Bedrooms * 2 })
               .attr("cx", function(d) { return x(d[xAttr]); })
               .attr("cy", function(d) { return y(d.minPrice); })
               .style("fill", '#6d8ca0')
