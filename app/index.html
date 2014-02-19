@@ -8,7 +8,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Trail+Bed</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <!-- d3 -->
@@ -58,6 +59,10 @@
       <woot-map basemap="national-geographic" 
             extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
 
+      <div id="elements-right">
+        <woot-details></woot-details>   
+      </div>
+
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
@@ -83,12 +88,6 @@
         
         
       </div>
-
-
-      <div id="elements-right">
-        <woot-details></woot-details>   
-      </div>
-
 
       <polymer-woot-mark-down></polymer-woot-mark-down>
 

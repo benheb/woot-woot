@@ -13,6 +13,7 @@ html, body {
   padding: 0;
   margin: 0;
   height: 100%;
+  width:100%;
 }
 
 #map {
@@ -125,8 +126,24 @@ circle.selected.hilighted {
   }
   #elements-right {
     position: inherit;
+    margin:auto;
     margin-top:20px;
+    width:100%;
   }
   #elements-bottom {
+    position:inherit;
+    width:100%;
+  }
+  #stylist-element-container {
+    display:none;
+  }
+  #line-chart-element-container {
+    display:none;
+  }
+  #chartscatter {
+    width:100% !important;
+    overflow:hidden;
+    margin:0px !important;
+    margin-top:10px !important;
   }
 }
