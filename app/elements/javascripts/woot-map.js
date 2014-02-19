@@ -145,7 +145,7 @@ Polymer('woot-map', {
       if (point.attributes.AverageReview == 45) {
         point.attributes.AverageReview = 4.5;
       }
-      var priceObj = self._parsePrice(point.PriceRange);
+      var priceObj = self._parsePrice(point.attributes.PriceRange);
       point.attributes.minPrice = priceObj.min;
       point.attributes.maxPrice = priceObj.max;
       point.attributes.Bedrooms = parseInt(point.attributes.Bedrooms);
@@ -159,22 +159,33 @@ Polymer('woot-map', {
    * @return {[type]}             [description]
    */
   _parsePrice: function(priceString){
-
-
-    var noDollars = priceString.replace(/\$/g,'');
-    var parts = noDollars.split(' ');
     var price ={min:0, max:0};
-    parts.forEach(function(part){
+    if(priceString !== ''){
+      var noDollars = priceString.replace(/\$/g,'');
+      var parts = noDollars.split(' ');
+      
+      if(parts.length){
+        
+        parts.forEach(function(part){
 
-      if(parseInt(part)){
-        var num = parseInt(part);
-        if(price.min === 0){
-          price.min = num;
-        }else{
-          price.max = num;
-        }
+          if(parseInt(part)){
+            var num = parseInt(part);
+            if(price.min === 0){
+              price.min = num;
+            }else{
+              price.max = num;
+            }
+          }
+        });
+      }else{
+        price.min = parseInt(noDollars) || 100;
+        price.max = parseInt(noDollars) || 110;
       }
-    });
+    }else{
+      price.min = 100;
+      price.max = 120;
+    }
+    
 
     return price;
 
