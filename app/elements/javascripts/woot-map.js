@@ -216,11 +216,13 @@ Polymer('woot-map', {
 
         me.vrboLayer.graphics.forEach(function(point){
           node = point.getNode();
-          if (geometry.contains(point.geometry)){
-            node.classList.add('selected');
-            me.insidePoints.push( point.attributes );
-          } else {
-            node.classList.remove('selected');
+          if ( node ){ 
+            if (geometry.contains(point.geometry)){
+              node.classList.add('selected');
+              me.insidePoints.push( point.attributes );
+            } else {
+              node.classList.remove('selected');
+            }
           }
         });
         me.fire('buffer:points', me.insidePoints);
