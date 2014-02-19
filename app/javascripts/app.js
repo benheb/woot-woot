@@ -58,7 +58,7 @@ var WootController = function () {
 
   }
 
-  function _updateCharts(){
+  function _updateCharts( attr ){
     var data = Woot.rawBufferData;
     detailsEl.updateTrail(null, data);
 
@@ -68,7 +68,7 @@ var WootController = function () {
     bathroomsChartEl.labels = olddata.Bathrooms.keys;
     bathroomsChartEl._update();
 
-    scatterEl.update(data);
+    scatterEl.update(data, attr);
   }
 
   function onStyleListColorChanged (e) {
@@ -81,6 +81,7 @@ var WootController = function () {
 
   function onStyleListGraduateSymbol (e) {
     mapEl.graduateSymbols( e.detail.msg );
+    _updateCharts( e.detail.msg );
   }
 
   function onSelectVrbo (e) {
