@@ -71,11 +71,11 @@ var WootController = function ($) {
   }
 
   function onSelectVrbo (e) {
-    mapEl.selectVrbo(e.detail);
+    mapEl.highlightVrbo(e.detail);
   }
 
   function onDeselectVrbo () {
-    mapEl.deselectVrbo();
+    mapEl.highlightVrbo();
   }
 
   function onLayerAdded (layer) {

@@ -147,13 +147,16 @@ Polymer('woot-map', {
     this.vrboLayer.renderer.symbol.size = size;
     this.vrboLayer.redraw();
   },
-  selectVrbo: function (id) {
-    //TODO: implement this!
-    Woot.controller.debug('selectVrbo');
-  },
-  deselectVrbo: function () {
-    //TODO: implement this!
-    Woot.controller.debug('deselectVrbo');
+  highlightVrbo: function (id) {
+    var node;
+    this.vrboLayer.graphics.forEach(function(point){
+      node = point.getNode();
+      if (point.attributes.id === id){
+        node.classList.add('hilighted');
+      } else {
+        node.classList.remove('hilighted');
+      }
+    });
   },
   _lineClick: function(e){
     var me = this;

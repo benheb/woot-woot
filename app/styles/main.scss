@@ -90,6 +90,10 @@ circle.selected {
   fill: rgb(255,215,120);
 }
 
+circle.selected.hilighted {
+  fill: rgb(255,165,70);
+}
+
 @media (max-width: 600px) {
   #map {
     height:70% !important;
