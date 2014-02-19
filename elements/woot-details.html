@@ -32,13 +32,13 @@
         <div id="details-container">
           <h4>Listing Details</h4>
           <dl>
-            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>  
-            <div class="listing-el"><dt>Average Review:</dt><dd>{{AverageReview}}</dd></div> 
+            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>
             <div class="listing-el"><dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd></div>
             <div class="listing-el"><dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd></div>  
             <div class="listing-el"><dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd></div>     
             <div class="listing-el"><dt>Sleeps:</dt><dd>{{Sleeps}}</dd></div>        
             <div class="listing-el"><dt>Region:</dt><dd>{{RegionName}}</dd></div>
+            <div class="listing-el"><dd><polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings></dd></div>
             <div class="listing-el"><dd class="image-dd"><img src="{{ImageURL}}" /></dd></div>
           </dl>
         </div>
@@ -49,22 +49,17 @@
           <h4>{{Name}}</h4>
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
-            <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
-              <img src="{{ImageUrl}}" />
-              <div>
-                <div>
-                  {{Bedrooms}} bedrooms (sleeps {{Sleeps}})
-                </div>
-                <div>
-                  {{Bathrooms}} bathrooms
-                </div>
+            <div class="vrbo-list-item" data-id="{{id}}" on-mouseenter="{{onMouseOver}}" on-mouseleave="{{onMouseOut}}">
+              <img src="{{ImageURL}}" />
+              <div class="vrbo-list-item-details">
                 <div>
                   {{RateSummary}}
                 </div>
                 <div>
-                  <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
+                  {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms
                 </div>
               </div>
+              <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
             </div>
           </template>
         </div>

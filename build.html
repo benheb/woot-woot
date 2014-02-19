@@ -553,13 +553,13 @@
         <div id="details-container">
           <h4>Listing Details</h4>
           <dl>
-            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>  
-            <div class="listing-el"><dt>Average Review:</dt><dd>{{AverageReview}}</dd></div> 
+            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>
             <div class="listing-el"><dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd></div>
             <div class="listing-el"><dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd></div>  
             <div class="listing-el"><dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd></div>     
             <div class="listing-el"><dt>Sleeps:</dt><dd>{{Sleeps}}</dd></div>        
             <div class="listing-el"><dt>Region:</dt><dd>{{RegionName}}</dd></div>
+            <div class="listing-el"><dd><polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings></dd></div>
             <div class="listing-el"><dd class="image-dd"><img src="{{ImageURL}}"></dd></div>
           </dl>
         </div>
@@ -570,22 +570,17 @@
           <h4>{{Name}}</h4>
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
-            <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
-              <img src="{{ImageUrl}}">
-              <div>
-                <div>
-                  {{Bedrooms}} bedrooms (sleeps {{Sleeps}})
-                </div>
-                <div>
-                  {{Bathrooms}} bathrooms
-                </div>
+            <div class="vrbo-list-item" data-id="{{id}}" on-mouseenter="{{onMouseOver}}" on-mouseleave="{{onMouseOut}}">
+              <img src="{{ImageURL}}">
+              <div class="vrbo-list-item-details">
                 <div>
                   {{RateSummary}}
                 </div>
                 <div>
-                  <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
+                  {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms
                 </div>
               </div>
+              <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
             </div>
           </template>
         </div>
@@ -804,6 +799,8 @@ license that can be found in the LICENSE file.
       update: function(data){
         this.$.chartscatter.innerHTML = "";
         console.log('data', data);
+        var xAttr = 'distance';
+        var xAxisLabel = 'To Trail';
         var me = this;
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 340;
@@ -833,11 +830,12 @@ license that can be found in the LICENSE file.
         //d3.tsv("data/data.tsv", function(error, data) {
           
           data.forEach(function(d) {
-            d.bedrooms = +d.bedrooms;
+            d[xAttr] = ((+d[xAttr]) * 3)/5280;
+            
             d.minPrice = +d.minPrice;
           });
-
-          x.domain(d3.extent(data, function(d) { return d.bedrooms; })).nice();
+          
+          x.domain(d3.extent(data, function(d) { return d[xAttr]; })).nice();
           y.domain(d3.extent(data, function(d) { return d.minPrice; })).nice();
 
           svg.append("g")
@@ -849,7 +847,7 @@ license that can be found in the LICENSE file.
               .attr("x", width)
               .attr("y", -6)
               .style("text-anchor", "end")
-              .text("# Bedrooms");
+              .text("Distance (mi)");
 
           svg.append("g")
               .attr("class", "y axis")
@@ -866,21 +864,21 @@ license that can be found in the LICENSE file.
               .data(data)
             .enter().append("circle")
               .attr("class", "dot")
-              .attr("r", function(d) { return d.bedrooms * 2 })
-              .attr("cx", function(d) { return x(d.bedrooms); })
+              .attr("r", function(d) { return d.Bedrooms * 2 })
+              .attr("cx", function(d) { return x(d[xAttr]); })
               .attr("cy", function(d) { return y(d.minPrice); })
               .style("fill", '#6d8ca0')
               .on('mouseover', function(d) {
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.bedrooms * 2.5 })
+                    .attr('r', function(d) { return d[xAttr] * 2.5 })
               })
               .on('mouseout', function(d) {
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.bedrooms * 2 })
+                    .attr('r', function(d) { return d[xAttr] * 2 })
               });
 
           var legend = svg.selectAll(".legend")
