@@ -182,9 +182,10 @@ Polymer('woot-map', {
           if (geometry.contains(point.geometry)){
             var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
             me.insidePoints.push( pntGraphic );
-            me.map.graphics.add( pntGraphic );      
+            me.map.graphics.add( pntGraphic );
           }
         });
+        me.fire('buffer:points', me.insidePoints);
       });
   }, 
 

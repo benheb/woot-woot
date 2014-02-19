@@ -30,8 +30,9 @@ var WootController = function ($) {
     self.debug('onTrailLayerClicked is not implemented!');
   }
 
-  function onBufferPoints ( points ) {
-    self.debug('onBufferPoints is not implemented!', points);
+  function onBufferPoints ( e ) {
+    self.debug('inside points')
+    self.debug(e.detail);
   }
 
   function onStyleListColorChanged (e) {
