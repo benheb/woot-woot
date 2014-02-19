@@ -47,11 +47,7 @@ Polymer('woot-map', {
 
         me.bufferLayer = new GraphicsLayer({ "id": "buffer" });
         me.map.addLayer( me.bufferLayer );
-
-        me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
-          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-          outFields: ['*']
-        });
+        
 
         var simpleJson = {
             "type": "simple",
@@ -107,10 +103,16 @@ Polymer('woot-map', {
         me.trailsLayer2.on('click', function (e) { me._lineClick(e); });
         me.map.addLayer( me.trailsLayer2 );
 
+        // add buffer lines here 
+        me.bufferLineLayer = new GraphicsLayer({ "id": "buffer-lines" });
+        me.map.addLayer( me.bufferLineLayer );
         
         // Add VRBO Layer 
-        var rend = new SimpleRenderer(simpleJson);
-        me.vrboLayer.setRenderer( rend );
+        me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
+          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          outFields: ['*']
+        });
+        me.vrboLayer.setRenderer( new SimpleRenderer(simpleJson) );
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
         //me.vrboLayer.on('mouse-over', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
@@ -161,12 +163,12 @@ Polymer('woot-map', {
   _lineClick: function(e){
     var me = this;
     this.bufferLayer.clear();
-    this.map.graphics.clear();
+    this.bufferLineLayer.clear();
     var geometry = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
 
     var graphic = new this.Graphic(geometry, symbol);
-    this.map.graphics.add(graphic);
+    this.bufferLineLayer.add(graphic);
 
     //setup the buffer parameters
     var params = new this.BufferParameters();
