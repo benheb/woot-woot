@@ -11,11 +11,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <!-- d3 -->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
         <!-- jsapi -->
         <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
         <script src="http://js.arcgis.com/3.8/"></script>
 
-        <link rel="stylesheet" href="styles/main.css">
+
+        <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="../app/styles/main.css">
+        <!-- endbuild-->
 
 
         <!-- Place your HTML imports here -->
@@ -28,7 +34,10 @@
         
         
         
+        
+        
 
+    
     </head>
     <body><polymer-element name="polymer-body" extends="body" assetpath="../app/bower_components/polymer/">
 
@@ -559,7 +568,21 @@
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
             <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
-              {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms, Average review: {{AverageReview}}
+              <img src="{{ImageUrl}}">
+              <div>
+                <div>
+                  {{Bedrooms}} bedrooms (sleeps {{Sleeps}})
+                </div>
+                <div>
+                  {{Bathrooms}} bathrooms
+                </div>
+                <div>
+                  {{RateSummary}}
+                </div>
+                <div>
+                  <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
+                </div>
+              </div>
             </div>
           </template>
         </div>
@@ -571,31 +594,361 @@
 
 </polymer-element>
 
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+
+
+<polymer-element name="polymer-ui-theme-aware" attributes="theme" assetpath="../app/bower_components/polymer-ui-theme-aware/">
+  <script>
+    PolymerUI = {
+      validateTheme: function() {
+        var theme = this.theme;
+        var defaultTheme = this.defaultTheme;
+        if (!theme) {
+          var p = this;
+          while (p && !theme) {
+            theme = p.getAttribute && p.getAttribute('theme');
+            defaultTheme = defaultTheme || p.defaultTheme;
+            p = p.parentNode || p.host;
+          }
+        }
+        this.activeTheme = this.theme || theme || defaultTheme;
+      }
+    };
+    Polymer('polymer-ui-theme-aware', {
+      defaultTheme: '',
+      activeTheme: '',
+      validateTheme: PolymerUI.validateTheme,
+      enteredView: function() {
+        this.validateTheme();
+      },
+      themeChanged: function() {
+        this.activeTheme = this.theme;
+      },
+      activeThemeChanged: function(old) {
+        this.classList.switch(old, this.activeTheme);
+      }
+    });
+  </script>
+</polymer-element>
+
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+
+<!--
+/**
+ * @module Polymer UI Elements
+ */
+-->
+
+<!--
+/**
+ * polymer-ui-ratings allows users to rate items.
+ *
+ * Example:
+ *
+ *     <polymer-ui-ratings value="3"></polymer-ui-ratings>
+ *
+ * By default polymer-ui-ratings shows 5 stars but can be configured using 
+ * "count" attribute:
+ *
+ *     <polymer-ui-ratings value="3" count="10"></polymer-ui-ratings>
+ *
+ * @class polymer-ui-ratings
+ */
+-->
+
+
+
+<polymer-element name="polymer-ui-ratings" extends="polymer-ui-theme-aware" attributes="count value" assetpath="../app/bower_components/polymer-ui-ratings/">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+#star {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  margin: 0 5px;
+  background-size: 100% 100%;
+  background-image: url(../app/bower_components/polymer-ui-ratings/assets/ic_star_rate_darkalt.png);
+  cursor: pointer;
+}
+
+#star.full {
+  background-image: url(../app/bower_components/polymer-ui-ratings/assets/ic_star_rate_darkreg.png);
+}
+
+:host(.polymer-ui-dark-theme:host) #star {
+  background-image: url(../app/bower_components/polymer-ui-ratings/assets/ic_star_rate_lightalt.png);
+}
+
+:host(.polymer-ui-dark-theme:host) #star.full {
+  background-image: url(../app/bower_components/polymer-ui-ratings/assets/ic_star_rate_lightreg.png);
+}
+</style>
+    <template repeat="{{star in stars}}">
+      <span id="star" index="{{star.index}}" class="{{star.starClass}}" on-tap="{{updateValue}}"></span>
+    </template>
+  </template>
+  <script>
+    Polymer('polymer-ui-ratings', {
+      /**
+       * Number of stars to display.
+       *
+       * @attribute count
+       * @type number
+       * @default 5
+       */
+      count: 5,
+      /**
+       * Number of selected stars.
+       *
+       * @attribute value
+       * @type number
+       * @default 0
+       */
+      value: 0,
+      ready: function() {
+        this.countChanged();
+      },
+      countChanged: function() {
+        this.stars = [];
+        for (var i = 0; i < this.count; i++) {
+          this.stars.push({index: i});
+        }
+        this.valueChanged();
+      },
+      valueChanged: function() {
+        this.stars && this.stars.forEach(function(s, i) {
+          s.starClass = i < this.value ? 'full' : '';
+        }.bind(this));
+      },
+      updateValue: function(event, detail, sender) {
+        var s = sender.templateInstance.model.star;
+        this.value = s.index + (s.starClass ? 0 : 1);
+      }
+    });
+  </script>
+</polymer-element>
+
+
+
+<polymer-element name="woot-scatter-chart" attributes="" assetpath="../app/elements/">
+  <template>
+    <style>
+      /* styles for the custom element itself - lowest specificity */
+      :host { display: block; }
+      #chartscatter {
+        width:400px;
+        height:220px;
+        overflow:hidden;
+        padding-bottom:20px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        margin: 15px;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 13px -1px #444;
+        float:left;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .dot {
+        stroke: #000;
+      }
+
+      /* 
+      style if an ancestor has the different class
+      :host(.different) { } 
+      */
+    </style>
+    <div id="chartscatter">
+      <h5>Select a Trail</h5>
+    </div>
+  </template>
+  <script>
+    Polymer('woot-scatter-chart', {
+      //applyAuthorStyles: true,
+      //resetStyleInheritance: true,
+
+      // element is fully prepared
+      ready: function() {
+
+      },
+      update: function(data){
+        this.$.chartscatter.innerHTML = "";
+        console.log('data', data);
+        var me = this;
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 340;
+            height = 150;
+
+        var x = d3.scale.linear()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var color = d3.scale.category10();
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+        var svg = d3.select(this.$.chartscatter).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        //d3.tsv("data/data.tsv", function(error, data) {
+          
+          data.forEach(function(d) {
+            d.bedrooms = +d.bedrooms;
+            d.minPrice = +d.minPrice;
+          });
+
+          x.domain(d3.extent(data, function(d) { return d.bedrooms; })).nice();
+          y.domain(d3.extent(data, function(d) { return d.minPrice; })).nice();
+
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis)
+            .append("text")
+              .attr("class", "label")
+              .attr("x", width)
+              .attr("y", -6)
+              .style("text-anchor", "end")
+              .text("# Bedrooms");
+
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+            .append("text")
+              .attr("class", "label")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Min Price ($)")
+
+          svg.selectAll(".dot")
+              .data(data)
+            .enter().append("circle")
+              .attr("class", "dot")
+              .attr("r", function(d) { return d.bedrooms * 2 })
+              .attr("cx", function(d) { return x(d.bedrooms); })
+              .attr("cy", function(d) { return y(d.minPrice); })
+              .style("fill", '#6d8ca0')
+              .on('mouseover', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', function(d) { return d.bedrooms * 2.5 })
+              })
+              .on('mouseout', function(d) {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                    .attr('r', function(d) { return d.bedrooms * 2 })
+              });
+
+          var legend = svg.selectAll(".legend")
+              .data(color.domain())
+            .enter().append("g")
+              .attr("class", "legend")
+              .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+          legend.append("rect")
+              .attr("x", width - 18)
+              .attr("width", 18)
+              .attr("height", 18)
+              .style("fill", color);
+
+          legend.append("text")
+              .attr("x", width - 24)
+              .attr("y", 9)
+              .attr("dy", ".35em")
+              .style("text-anchor", "end")
+              .text(function(d) { return d; });
+
+        //});
+      },
+      // instance of the element is created
+      created: function() { },
+      // instance was inserted into the document
+      enteredView: function() { },
+      // instance was removed from the document
+      leftView: function() { },
+      // attribute added, removed or updated
+      attributeChanged: function(attrName, oldVal, newVal) { }
+    });
+  </script>
+</polymer-element>
 
         
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!--div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="../app/#"><img src="../app/images/bike.png">Trail+Bed</a>
+            <a class="navbar-brand" href="#"><img src="images/bike.png"/>Trail+Bed</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li><a href="../app/about.html">About</a></li>
+              <li><a href="about.html">About</a></li>
             </ul>
           </div>
         </div>
-      </div>
+      </div-->
+
       <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
 
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
-
-        <chart-line id="bedrooms" charttitle="Bedrooms" values="[ [3,10,2,7,0] ]" labels="[&apos;Studio&apos;, &apos;1Br&apos;, &apos;2Br&apos;, &apos;3Br&apos;, &apos;4Br&apos;]"></chart-line>
-
-        <chart-line id="sleeps" charttitle="Sleeps" values="[ [3,10,2,7,0] ]" labels="[&apos;Studio&apos;, &apos;1Br&apos;, &apos;2Br&apos;, &apos;3Br&apos;, &apos;4Br&apos;]"></chart-line>
-
+        <woot-scatter-chart></woot-scatter-chart>
+        <!--
+        <chart-line id="bedrooms"
+        chartTitle='Bedrooms'
+        values="[ [3,10,2,7,0] ]"
+        labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        
+        <chart-line 
+        id="sleeps"
+        chartTitle='Sleeps'
+        values="[ [3,10,2,7,0] ]"
+        labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        -->
+        
         <chart-line id="bathrooms" charttitle="Bathrooms" values="[ [3,10,2,7,0] ]" labels="[&apos;Studio&apos;, &apos;1Br&apos;, &apos;2Br&apos;, &apos;3Br&apos;, &apos;4Br&apos;]"></chart-line>
+        
+        
       </div>
 
 
@@ -606,6 +959,7 @@
 
       <polymer-woot-mark-down></polymer-woot-mark-down>
 
+          <polymer-woot-scatter-chart></polymer-woot-scatter-chart>
     </body>
     <script src="../app/javascripts/DataMuncher.js"></script>
     <script src="../app/javascripts/app.js"></script>

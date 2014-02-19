@@ -48,7 +48,21 @@
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
             <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
-              {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms, Average review: {{AverageReview}}
+              <img src="{{ImageUrl}}" />
+              <div>
+                <div>
+                  {{Bedrooms}} bedrooms (sleeps {{Sleeps}})
+                </div>
+                <div>
+                  {{Bathrooms}} bathrooms
+                </div>
+                <div>
+                  {{RateSummary}}
+                </div>
+                <div>
+                  <polymer-ui-ratings value="{{AverageReview}}"></polymer-ui-ratings>
+                </div>
+              </div>
             </div>
           </template>
         </div>

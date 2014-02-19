@@ -15,8 +15,8 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'esri/renderers/SimpleRenderer', 'esri/layers/FeatureLayer', 'esri/tasks/GeometryService', 'esri/tasks/BufferParameters', 'esri/symbols/SimpleLineSymbol','esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleMarkerSymbol', 'dojo/_base/Color', 'esri/graphic', 'dojo/domReady!'], 
-      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color, Graphic) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'esri/renderers/SimpleRenderer', 'esri/layers/FeatureLayer', 'esri/layers/GraphicsLayer', 'esri/tasks/GeometryService', 'esri/tasks/BufferParameters', 'esri/symbols/SimpleLineSymbol','esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleMarkerSymbol', 'dojo/_base/Color', 'esri/graphic', 'dojo/domReady!'], 
+      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GraphicsLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color, Graphic) {
       me.BufferParameters = BufferParameters;
       me.GeometryService = GeometryService;
       me.SimpleLineSymbol = SimpleLineSymbol;
@@ -44,10 +44,9 @@ Polymer('woot-map', {
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
-        me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
-          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
-          outFields: ['*']
-        });
+
+        me.bufferLayer = new GraphicsLayer({ "id": "buffer" });
+        me.map.addLayer( me.bufferLayer );
 
         var simpleJson = {
             "type": "simple",
@@ -75,7 +74,7 @@ Polymer('woot-map', {
         var lineJson = {
           "type": "simple",
           "symbol": {
-            "color": [39, 174, 96, 150],
+            "color": [65, 160, 13, 150],
             "width": 2,
             "type": "esriSLS",
             "style": "esriSLSSolid"
@@ -86,6 +85,7 @@ Polymer('woot-map', {
 
         // Add Trail layer #1
         me.trailsLayer = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/SouthShoreTrails/FeatureServer/0", {
+          className: 'trails',
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
@@ -96,6 +96,7 @@ Polymer('woot-map', {
 
         // Trail Layer #2
         me.trailsLayer2 = new FeatureLayer( "http://services1.arcgis.com/ohIVh2op2jYT7sku/arcgis/rest/services/ValleyFloor_Trails/FeatureServer/0", {
+          className: 'trails',
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ["*"]
         });
@@ -103,11 +104,19 @@ Polymer('woot-map', {
         me.trailsLayer2.on('click', function (e) { me._lineClick(e); });
         me.map.addLayer( me.trailsLayer2 );
 
+        // add buffer lines here 
+        me.bufferLineLayer = new GraphicsLayer({ "id": "buffer-lines" });
+        me.map.addLayer( me.bufferLineLayer );
         
         // Add VRBO Layer 
-        var rend = new SimpleRenderer(simpleJson);
-        me.vrboLayer.setRenderer( rend );
+        me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
+          mode: esri.layers.FeatureLayer.MODE_SNAPSHOT,
+          outFields: ['*']
+        });
+        me.vrboLayer.on('update-end', function () { me.onVrboLayerUpdated(); });
+        me.vrboLayer.setRenderer( new SimpleRenderer(simpleJson) );
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
+        //me.vrboLayer.on('mouse-over', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
         // FIXME: move this into stylist.js
@@ -130,6 +139,13 @@ Polymer('woot-map', {
       }
     });
   },
+  onVrboLayerUpdated: function () {
+    this.vrboLayer.graphics.forEach(function(point){
+      if (point.attributes.AverageReview == 45) {
+        point.attributes.AverageReview = 4.5;
+      }
+    });
+  },
   showMessage: function (msg) {
     //public method!
     alert(msg);
@@ -142,20 +158,26 @@ Polymer('woot-map', {
     this.vrboLayer.renderer.symbol.size = size;
     this.vrboLayer.redraw();
   },
-  selectVrbo: function (id) {
-    //TODO: implement this!
-  },
-  deselectVrbo: function () {
-    //TODO: implement this!
+  highlightVrbo: function (id) {
+    var node;
+    this.vrboLayer.graphics.forEach(function(point){
+      node = point.getNode();
+      if (point.attributes.id === id){
+        node.classList.add('hilighted');
+      } else {
+        node.classList.remove('hilighted');
+      }
+    });
   },
   _lineClick: function(e){
     var me = this;
-    this.map.graphics.clear();
+    this.bufferLayer.clear();
+    this.bufferLineLayer.clear();
     var geometry = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
 
     var graphic = new this.Graphic(geometry, symbol);
-    this.map.graphics.add(graphic);
+    this.bufferLineLayer.add(graphic);
 
     //setup the buffer parameters
     var params = new this.BufferParameters();
@@ -185,27 +207,21 @@ Polymer('woot-map', {
         new this.Color([149, 165, 166, 0.60])
       );
 
-      var pntSymbol = new this.SimpleMarkerSymbol(
-        this.SimpleMarkerSymbol.STYLE_CIRCLE, 15, 
-        new this.SimpleLineSymbol(
-          this.SimpleLineSymbol.STYLE_SOLID, 
-          new this.Color([241, 196, 15, .35]), 2
-        ), 
-        new this.Color([255, 255, 55, 200])
-      );
-
       this.insidePoints = []; 
-      var pntGraphic, graphic;
+      var node, buffer;
 
       bufferedGeometries.forEach(function(geometry) {
-        graphic = new me.Graphic(geometry, symbol);
-        me.map.graphics.add( graphic );
+        buffer = new me.Graphic(geometry, symbol);
+        me.bufferLayer.add( buffer );
 
         me.vrboLayer.graphics.forEach(function(point){
+          node = point.getNode();
           if (geometry.contains(point.geometry)){
-            var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
+            console.log('true')
+            node.classList.add('selected');
             me.insidePoints.push( point.attributes );
-            me.map.graphics.add( pntGraphic );
+          } else {
+            node.classList.remove('selected');
           }
         });
         me.fire('buffer:points', me.insidePoints);
@@ -213,7 +229,6 @@ Polymer('woot-map', {
   }, 
 
   graduateSymbols: function(attr) {
-    console.log("graduateSymbols", attr)
     var self = this;
     var renderer = this.vrboLayer.renderer;
     var vals = []

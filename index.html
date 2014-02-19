@@ -11,9 +11,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <!-- d3 -->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
         <!-- jsapi -->
         <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
         <script src="http://js.arcgis.com/3.8/"></script>
+
 
         <link rel="stylesheet" href="styles/main.css">
 
@@ -27,15 +31,18 @@
         <link rel="import" href="elements/stylist-element.html">
         <link rel="import" href="elements/chart-element.html">
         <link rel="import" href="elements/woot-details.html">
+        <link rel="import" href="bower_components/polymer-ui-ratings/polymer-ui-ratings.html">
+        <link rel="import" href="elements/woot-scatter-chart.html">
 
+    <link rel="import" href="elements/woot-scatter-chart.html">
     </head>
     <body>
 
         
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!--div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img src="images/bike.png">Trail+Bed</a>
+            <a class="navbar-brand" href="#"><img src="images/bike.png"/>Trail+Bed</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -43,18 +50,30 @@
             </ul>
           </div>
         </div>
-      </div>
+      </div-->
+
       <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
 
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
-
-        <chart-line id="bedrooms" charttitle="Bedrooms" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
-
-        <chart-line id="sleeps" charttitle="Sleeps" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
-
+        <woot-scatter-chart></woot-scatter-chart>
+        <!--
+        <chart-line id="bedrooms"
+        chartTitle='Bedrooms'
+        values="[ [3,10,2,7,0] ]"
+        labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        
+        <chart-line 
+        id="sleeps"
+        chartTitle='Sleeps'
+        values="[ [3,10,2,7,0] ]"
+        labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        -->
+        
         <chart-line id="bathrooms" charttitle="Bathrooms" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        
+        
       </div>
 
 
@@ -65,6 +84,7 @@
 
       <polymer-woot-mark-down></polymer-woot-mark-down>
 
+          <polymer-woot-scatter-chart></polymer-woot-scatter-chart>
     </body>
     <script src="javascripts/DataMuncher.js"></script>
     <script src="javascripts/app.js"></script>
