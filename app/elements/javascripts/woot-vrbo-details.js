@@ -1,6 +1,9 @@
 Polymer('woot-vrbo-details', {
   update: function (attributes) {
-    //this.extend(attributes)
-    this.attributes = attributes;
+    for (var p in attributes) {
+      if (attributes.hasOwnProperty(p)) {
+        this[p] = attributes[p];
+      }
+    }
   }
 });
