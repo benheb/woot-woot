@@ -162,10 +162,12 @@ Polymer('woot-map', {
     var node;
     this.vrboLayer.graphics.forEach(function(point){
       node = point.getNode();
-      if (point.attributes.id === id){
-        node.classList.add('hilighted');
-      } else {
-        node.classList.remove('hilighted');
+      if ( node ) {
+        if (point.attributes.id === id){
+          node.classList.add('hilighted');
+        } else {
+          node.classList.remove('hilighted');
+        }
       }
     });
   },
@@ -173,10 +175,10 @@ Polymer('woot-map', {
     var me = this;
     this.bufferLayer.clear();
     this.bufferLineLayer.clear();
-    var geometry = e.graphic.geometry;
+    var line = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
 
-    var graphic = new this.Graphic(geometry, symbol);
+    var graphic = new this.Graphic(line, symbol);
     this.bufferLineLayer.add(graphic);
 
     //setup the buffer parameters
@@ -185,9 +187,9 @@ Polymer('woot-map', {
     params.bufferSpatialReference = new esri.SpatialReference({wkid: 102100});
     params.outSpatialReference = map.spatialReference;
     params.unit = this.GeometryService['UNIT_METER'];
-    params.geometries = [geometry];
+    params.geometries = [line];
     this.gsvc.buffer(params, function(geoms) { 
-      me._showBuffer(geoms);
+      me._showBuffer( line, geoms );
     });
 
     this.fire('trail:click', e);
@@ -196,7 +198,7 @@ Polymer('woot-map', {
     this.fire('vrbo:click', e);
   },
 
-  _showBuffer: function( bufferedGeometries ) {
+  _showBuffer: function( line, bufferedGeometries ) {
       var me = this;
       var symbol = new this.SimpleFillSymbol(
         this.SimpleFillSymbol.STYLE_SOLID,
@@ -216,12 +218,15 @@ Polymer('woot-map', {
 
         me.vrboLayer.graphics.forEach(function(point){
           node = point.getNode();
-          if (geometry.contains(point.geometry)){
-            console.log('true')
-            node.classList.add('selected');
-            me.insidePoints.push( point.attributes );
-          } else {
-            node.classList.remove('selected');
+          if ( node ){ 
+            if (geometry.contains(point.geometry)){
+              // compute the distance to the trail
+              point.attributes.distance = me._distance(line.paths[0][0], [point.geometry.x, point.geometry.y]);
+              node.classList.add('selected');
+              me.insidePoints.push( point.attributes );
+            } else {
+              node.classList.remove('selected');
+            }
           }
         });
         me.fire('buffer:points', me.insidePoints);
@@ -245,6 +250,16 @@ Polymer('woot-map', {
       valueUnit: "unknown"
     });
     this.vrboLayer.redraw();
+  },
+
+  _distance: function(pnt1, pnt2){
+    var xs = 0;
+    var ys = 0;
+    xs = pnt2[0] - pnt1[0];
+    xs = xs * xs;
+    ys = pnt2[1] - pnt1[1];
+    ys = ys * ys;
+    return Math.sqrt( xs + ys );
   }
 
 });

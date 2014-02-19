@@ -1,7 +1,7 @@
 <polymer-element name="woot-details" attributes="">
     <template>
       <style>
-        :host {
+        #details-container {
           width: 100%;
           height: auto;
           overflow: hidden;
@@ -13,21 +13,23 @@
           border-bottom-right-radius: 4px;
           border-bottom-left-radius: 4px;
           box-shadow: rgb(68, 68, 68) 0px 0px 13px -1px;
-          position: absolute;
+          position: relative;
           max-height: 100%;
           overflow-y: auto;
         }
       </style>      
 
       <template if="{{home}}">
-        <h2>Welcome to Trail+Bed</h2>
-        <p>
-          Trail+Bed helps you find great places to stay near the trails you love to hike. Choose from any of the VRBO House Rentals or select your favorite trail to find the houses the match your criteria.
-        </p>
+        <div id="details-container">
+          <h2>Welcome to Trail+Bed</h2>
+          <p>
+            Trail+Bed helps you find great places to stay near the trails you love to hike. Choose from any of the VRBO House Rentals or select your favorite trail to find the houses the match your criteria.
+          </p>
+        </div>
       </template>
       
       <template if="{{vrbo}}">
-        <div>
+        <div id="details-container">
           <h4>Listing Details</h4>
           <dl>
             <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>  
@@ -43,7 +45,7 @@
       </template>
 
       <template if="{{trail}}">
-        <div>
+        <div id="details-container">
           <h4>{{Name}}</h4>
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
