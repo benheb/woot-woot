@@ -75,7 +75,7 @@ Polymer('woot-map', {
         var lineJson = {
           "type": "simple",
           "symbol": {
-            "color": [39, 174, 96, 150],
+            "color": [65, 160, 13, 150],
             "width": 2,
             "type": "esriSLS",
             "style": "esriSLSSolid"
@@ -108,6 +108,7 @@ Polymer('woot-map', {
         var rend = new SimpleRenderer(simpleJson);
         me.vrboLayer.setRenderer( rend );
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
+        me.vrboLayer.on('mouseover', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
         // FIXME: move this into stylist.js
