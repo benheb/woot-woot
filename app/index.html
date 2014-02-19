@@ -22,6 +22,7 @@
 
         <!-- Place your HTML imports here -->
         <script src="bower_components/platform/platform.js"></script>
+        <script src="bower_components/chartjs/chart.min.js"></script>
         <link rel="import" href="elements/list.html">
         <link rel="import" href="elements/greeting.html">
         <link rel="import" href="elements/woot-map.html">
@@ -41,14 +42,20 @@
             <ul class="nav navbar-nav">
               <li><a href="about.html">About</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
-      <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
+      <woot-map basemap="national-geographic" 
+            extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
 
       <div id="elements-bottom">
         <stylist-element ramps="three" format="esri" type="point"></stylist-element>
-        <chart-element></chart-element>    
+
+        <chart-pie values="[20, 30, 100]"></chart-pie>
+
+        <chart-line 
+        values="[ [3,10,2,7] , [87,102,150,250] ]"
+        labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
       </div>
 
 
