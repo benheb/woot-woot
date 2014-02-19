@@ -7,7 +7,7 @@ var WootController = function ($) {
   var self = this;
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
-  var vrboDetailsEl = document.querySelector('woot-vrbo-details');
+  var vrboDetailsEl = document.querySelector('woot-details');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
