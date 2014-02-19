@@ -48,10 +48,7 @@ Polymer('woot-map', {
                 "type": "esriSMS",
                 "style": "esriSMSCircle",
                 "color": [
-                    37,
-                    52,
-                    148,
-                    255
+                  206,56,28,255
                 ],
                 "outline": {
                     "color": [

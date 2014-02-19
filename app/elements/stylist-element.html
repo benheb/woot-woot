@@ -43,7 +43,6 @@
       </style>
       <div id="stylist-element-container">
         <div id="stylist-left">
-          <h5>Fill Color</h5>
           <template if="{{ramps === 'one'}}">
             <ul id="stylist-element-ul-colors">
               <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
@@ -96,8 +95,10 @@
             </ul>  
           </template>
 
-          <h5>Marker Size</h5>
-          <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
+          <div style="display:none">
+            <h5>Marker Size</h5>
+            <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
+          </div>
 
           <h5>Graduated Symbols</h5>
           <select on-change="{{graduateSymbols}}" id="graduate-symbol-list" class="form-control">
