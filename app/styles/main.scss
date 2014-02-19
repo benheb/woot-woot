@@ -63,3 +63,19 @@ circle:hover {
   stroke:#999;
   stroke-width:2;
 }
+
+.listing-el {
+  margin-bottom:5px;
+  overflow:hidden;
+}
+.listing-el dd, .listing-el dt {
+  float:left;
+}
+
+.listing-el dt {
+  margin-right:5px;
+}
+
+.image-dd {
+  width:100%;
+}
