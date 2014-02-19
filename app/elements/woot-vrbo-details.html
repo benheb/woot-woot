@@ -14,20 +14,22 @@
           position: absolute;
         }
       </style>
-
-      <div>
-        <h4>Listing Details</h4>
-        <dl>
-          <dt>Price:</dt><dd>{{RateSummary}}</dd>  
-          <dt>Average Review:</dt><dd>{{AverageReview}}</dd> 
-          <dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd>  
-          <dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd>  
-          <dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd>     
-          <dt>Sleeps:</dt><dd>{{Sleeps}}</dd>        
-          <dt>Region:</dt><dd>{{RegionName}}</dd>
-          <dt>Photo:</dt><dd><img src="{{ImageURL}}" /></dd>
-        </dl>
-      </div>
+      
+      <template if="{{RegionName}}">
+        <div>
+          <h4>Listing Details</h4>
+          <dl>
+            <dt>Price:</dt><dd>{{RateSummary}}</dd>  
+            <dt>Average Review:</dt><dd>{{AverageReview}}</dd> 
+            <dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd>  
+            <dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd>  
+            <dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd>     
+            <dt>Sleeps:</dt><dd>{{Sleeps}}</dd>        
+            <dt>Region:</dt><dd>{{RegionName}}</dd>
+            <dt>Photo:</dt><dd><img src="{{ImageURL}}" /></dd>
+          </dl>
+        </div>
+      </template>
 
     </template>
     
