@@ -11,9 +11,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <!-- d3 -->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
         <!-- jsapi -->
         <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
         <script src="http://js.arcgis.com/3.8/"></script>
+
 
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
@@ -29,6 +33,7 @@
         <link rel="import" href="elements/stylist-element.html">
         <link rel="import" href="elements/chart-element.html">
         <link rel="import" href="elements/woot-details.html">
+        <link rel="import" href="elements/woot-scatter-chart.html">
 
     <link rel="import" href="elements/woot-scatter-chart.html">
     </head>
@@ -53,6 +58,7 @@
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
+        <woot-scatter-chart></woot-scatter-chart>
         <!--
         <chart-line id="bedrooms"
         chartTitle='Bedrooms'
