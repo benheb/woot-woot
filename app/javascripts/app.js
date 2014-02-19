@@ -11,7 +11,7 @@ var WootController = function ($) {
   var bathroomsChartEl = document.querySelector('#bathrooms');
   var bedroomsChartEl = document.querySelector('#bedrooms');
   var sleepsChartEl = document.querySelector('#sleeps');
-  var scatterEl = document.querySelector('chartscatter');
+  var scatterEl = document.querySelector('woot-scatter-chart');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
