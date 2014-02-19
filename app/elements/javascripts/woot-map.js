@@ -161,9 +161,17 @@ Polymer('woot-map', {
         new this.Color([241, 196, 15, 0.35])
       );
 
+      var inside = [], pntGraphic, graphic;
       bufferedGeometries.forEach(function(geometry) {
-        var graphic = new me.Graphic(geometry, symbol);
-        me.map.graphics.add(graphic);
+        graphic = new me.Graphic(geometry, symbol);
+        me.map.graphics.add( graphic );
+
+        me.vrboLayer.graphics.forEach(function(point){
+          if (geometry.contains(point.geometry)){
+            console.log(true);
+            me.map.graphics.add(new me.Graphic(point.geometry, symbol));      
+          }
+        });
       });
   }, 
 
