@@ -178,7 +178,7 @@ Polymer('woot-map', {
         me.vrboLayer.graphics.forEach(function(point){
           if (geometry.contains(point.geometry)){
             var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
-            me.insidePoints.push( pntGraphic );
+            me.insidePoints.push( point.attributes );
             me.map.graphics.add( pntGraphic );
           }
         });
@@ -189,7 +189,6 @@ Polymer('woot-map', {
   graduateSymbols: function(attr) {
     var self = this;
     var renderer = this.vrboLayer.renderer;
-    console.log('this.vrboLayer', this.vrboLayer);
     var min = 0, max = 0;
     for ( var i = 0; i < this.vrboLayer.graphics.length; i++ ) {
       var val = self.vrboLayer.graphics[ i ].attributes[ attr ];
