@@ -1,4 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+
 
 <polymer-element name="woot-mark-down"  attributes="text">
   <template>
@@ -19,7 +19,6 @@
 
       // element is fully prepared
       ready: function(){ 
-        console.log('woot-mark-down')
         this.text = this.trim(this.innerHTML);
       },
       textChanged: function() {

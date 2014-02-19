@@ -1,7 +1,7 @@
 
 <!-- Pie -->
 
-<polymer-element name="chart-pie" attributes="values colors height width">
+<polymer-element name="chart-pie" attributes="values colors height width chartTitle">
   <template>
     <style>
       #pie-chart-element-container {
@@ -20,20 +20,31 @@
       }
     </style>
     <div id="pie-chart-element-container">
-      <h5>Charts</h5>
+      <h5>{{chartTitle}}</h5>
       <canvas id="canvas" width="200" height="175"></canvas>
     </div>
   </template>
   <script>
     Polymer("chart-pie", {
       ready: function () {
+        console.log(this.chartTitle + ' IS THE TITLE');
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx);
+        this._update();
+      },
+      attributeChanged: function(attrName, oldVal, newVal) {
+        console.log('attribute changed: ' + attrName); 
+        if(attrName === 'values'){
+          this._update();
+        }
+      },
+      _update: function(){
         this.data = [];
         this.values.forEach(function (val, i) {
           this.data.push({ color: this.colors[i], value: val });
         }, this);
 
-        this.ctx = this.$.canvas.getContext('2d');
-        this.chart = new Chart(this.ctx).Pie(this.data);
+        this.chart.Pie(this.data);
       },
       values: [30, 50, 100, 40, 120],
       colors: ["#EF9283", "#FCDFA5", "#B8E2BA", "#C2B6A0", "#FECD81"]
@@ -89,11 +100,11 @@
 
 <!-- Line -->
 
-<polymer-element name="chart-line" attributes="labels values colors">
+<polymer-element name="chart-line" attributes="labels values colors chartTitle">
   <template>
     <style>
     #line-chart-element-container {
-        width:400px;
+        width:330px;
         height:220px;
         overflow:hidden;
         padding-bottom:20px;
@@ -108,13 +119,21 @@
       }
     </style>
     <div id="line-chart-element-container">
-      <h5>Charts</h5>
-      <canvas id="canvas" width="400" height="175"></canvas>
+      <h5>{{chartTitle}}</h5>
+      <canvas id="canvas" ></canvas>
     </div>
   </template>
   <script>
     Polymer("chart-line", {
       ready: function () {
+        //get context and create the chart
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx);
+        //now apply the data
+        this._update();
+      },
+
+      _update:function(){
         this.datasets = [];
         this.values.forEach(function (val, i) {
           this.datasets.push({
@@ -128,15 +147,15 @@
 
         this.data = { labels: this.labels, datasets: this.datasets };
 
-        console.log(this.data);
+        //console.log(this.data);
 
-        this.ctx = this.$.canvas.getContext('2d');
-        this.chart = new Chart(this.ctx).Line(this.data);
+        //this.ctx = this.$.canvas.getContext('2d');
+        this.chart.Line(this.data);
       },
+
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
       values: [
-        [65,59,90,81,56,55,40],
-        [28,48,40,19,96,27,100]
+        [65,59,90,81,56,55,40]
       ],
       colors: [
         "239,146,131",

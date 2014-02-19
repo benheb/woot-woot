@@ -8,6 +8,9 @@ var WootController = function ($) {
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
   var detailsEl = document.querySelector('woot-details');
+  var bathroomsChartEl = document.querySelector('#bathrooms');
+  var bedroomsChartEl = document.querySelector('#bedrooms');
+  var sleepsChartEl = document.querySelector('#sleeps');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
@@ -34,6 +37,25 @@ var WootController = function ($) {
 
   function onBufferPoints ( e ) {
     detailsEl.updateTrail(null, e.detail);
+
+    //self.debug('inside points')
+    //self.debug(e.detail);
+    //console.log(JSON.stringify(e.detail));
+    var data = DataMuncher.aggregateProperties(e.detail);
+    
+    //pass bedrooms to pie chart
+    //pieChartEl.values = data.Bedrooms.values;
+    bedroomsChartEl.values = [ data.Bedrooms.values ];
+    bedroomsChartEl.labels = data.Bedrooms.keys;
+    bedroomsChartEl._update();
+
+    bathroomsChartEl.values = [ data.Bathrooms.values ];
+    bathroomsChartEl.labels = data.Bathrooms.keys;
+    bathroomsChartEl._update();
+
+    sleepsChartEl.values = [ data.Sleeps.values ];
+    sleepsChartEl.labels = data.Sleeps.keys;
+    sleepsChartEl._update();
   }
 
   function onStyleListColorChanged (e) {

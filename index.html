@@ -49,9 +49,12 @@
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
-        <chart-pie width="this.width" values="[20, 30, 100]"></chart-pie>
 
-        <chart-line values="[ [3,10,2,7] , [87,102,150,250] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+        <chart-line id="bedrooms" charttitle="Bedrooms" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+
+        <chart-line id="sleeps" charttitle="Sleeps" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
+
+        <chart-line id="bathrooms" charttitle="Bathrooms" values="[ [3,10,2,7,0] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
       </div>
 
 
@@ -63,6 +66,7 @@
       <polymer-woot-mark-down></polymer-woot-mark-down>
 
     </body>
+    <script src="javascripts/DataMuncher.js"></script>
     <script src="javascripts/app.js"></script>
     <script>
       var Woot = {};
