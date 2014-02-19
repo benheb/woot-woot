@@ -156,6 +156,7 @@ Polymer('woot-map', {
   _lineClick: function(e){
     var me = this;
     this.bufferLayer.clear();
+    this.map.graphics.clear();
     var geometry = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
 
@@ -218,7 +219,6 @@ Polymer('woot-map', {
   }, 
 
   graduateSymbols: function(attr) {
-    console.log("graduateSymbols", attr)
     var self = this;
     var renderer = this.vrboLayer.renderer;
     var vals = []
