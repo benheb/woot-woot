@@ -27,12 +27,18 @@ var WootController = function () {
   detailsEl.addEventListener('deselect:vrbo', onDeselectVrbo);
 
   scatterEl.addEventListener('scatter-selected', onScatterSelect);
+  scatterEl.addEventListener('scatter-exit', onScatterExit);
   
   mapEl.addEventListener('layer-added', onLayerAdded);
 
   function onScatterSelect(e){ 
     detailsEl.updateVrbo(e.detail.msg);
-    mapEl.hilight
+    //mapEl.hilight
+  }
+
+  function onScatterExit(e){ 
+    var data = Woot.rawBufferData;
+    detailsEl.updateTrail(null, data);
   }
 
   //Private Methods
