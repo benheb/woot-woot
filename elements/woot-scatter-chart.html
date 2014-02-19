@@ -13,7 +13,7 @@
         background-color: #FFF;
         border: 1px solid #666;
         margin: 15px;
-        margin-left:0px;
+        margin-right:0px;
         padding: 5px;
         border-radius: 4px;
         box-shadow: 0px 0px 13px -1px #444;
@@ -49,10 +49,17 @@
       ready: function() {
 
       },
-      update: function(data){
+      update: function(data, at){
+
         var self = this;
+        console.log('DATA', data);
+        console.log('AT', at);
+
+        var size = at || "Bedrooms";
+
         this.$.chartscatter.innerHTML = "";
         this.$.chartscatter.style.display = "block";
+
         var xAttr = 'distance';
         var xAxisLabel = 'To Trail';
         var me = this;
@@ -84,8 +91,7 @@
         //d3.tsv("data/data.tsv", function(error, data) {
           
           data.forEach(function(d) {
-            d[xAttr] = ((+d[xAttr]) * 3)/5280;
-            
+            d[xAttr] = ( at ) ? (+d[xAttr]) : ((+d[xAttr]) * 3)/5280;
             d.minPrice = +d.minPrice;
           });
           
@@ -118,7 +124,7 @@
               .data(data)
             .enter().append("circle")
               .attr("class", "dot")
-              .attr("r", function(d) { return d.Bedrooms * 2 })
+              .attr("r", function(d) { return d[ size ] * 2 })
               .attr("cx", function(d) { return x(d[xAttr]); })
               .attr("cy", function(d) { return 200 })
               .style("fill", '#6d8ca0')
@@ -126,14 +132,14 @@
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.Bedrooms * 2.5 })
+                    .attr('r', function(d) { return d[ size ] * 2.5 })
                   self._nodeEnter(d);
               })
               .on('mouseout', function(d) {
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.Bedrooms * 2 })
+                    .attr('r', function(d) { return d[ size ] * 2 })
                   self._nodeExit(d);
               })
               .transition()

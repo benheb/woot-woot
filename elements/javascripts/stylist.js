@@ -28,6 +28,7 @@ Polymer('stylist-element', {
   },
   
   addLayer: function(layer) {
+    var self = this;
     var fields = layer.impl.detail.layer.fields,
         selected = false;
     for(var i = 0; i<fields.length;i++) {
@@ -40,10 +41,12 @@ Polymer('stylist-element', {
         //   option.selected = true;        
         //   selected = true;
         // }
-
+        //self.graduateSymbols('Bedrooms');
         document.getElementById('graduate-symbol-list').appendChild(option);
       }
     }
+    var element = document.getElementById('graduate-symbol-list');
+    element.value = "Bedrooms";
   },
 
   changeColor: function(e) {
@@ -90,8 +93,13 @@ Polymer('stylist-element', {
   },
 
   //graduate symbols
-  graduateSymbols: function(e) {
-    this.fire('graduate-symbols', {msg: e.impl.target.value});
+  graduateSymbols: function(attr) {
+    if ( attr.impl ) {
+      this.fire('graduate-symbols', {msg: attr.impl.target.value});
+    } else {
+      this.fire('graduate-symbols', {msg: attr});
+    }
+    
   }
 
 });

@@ -157,16 +157,22 @@
     <template>
       <style>
         #stylist-element-container {
-          width:auto;
-          height:220px;
-          overflow:hidden;
-          padding-bottom:20px;
-          background-color: #FFF;
-          border: 1px solid #666;
+          width: auto;
+          height: 100px;
+          overflow: hidden;
+          background-color: rgb(255, 255, 255);
+          border: 1px solid rgb(102, 102, 102);
           margin: 15px;
           padding: 5px;
-          border-radius: 4px;
-          box-shadow: 0px 0px 13px -1px #444;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-bottom-left-radius: 4px;
+          box-shadow: rgb(68, 68, 68) 0px 0px 13px -1px;
+          position: absolute;
+          top: 5px;
+          left: 55px;
+          z-index: 100;
         }
         #stylist-left {
           width:168px;
@@ -281,7 +287,7 @@
         background-color: #FFF;
         border: 1px solid #666;
         margin: 15px;
-        margin-left:0px;
+        margin-right:0px;
         padding: 5px;
         border-radius: 4px;
         box-shadow: 0px 0px 13px -1px #444;
@@ -379,7 +385,7 @@
         background-color: #FFF;
         border: 1px solid #666;
         margin: 15px;
-        margin-left:0px;
+        margin-right:0px;
         padding: 5px;
         border-radius: 4px;
         box-shadow: 0px 0px 13px -1px #444;
@@ -762,7 +768,7 @@ license that can be found in the LICENSE file.
         background-color: #FFF;
         border: 1px solid #666;
         margin: 15px;
-        margin-left:0px;
+        margin-right:0px;
         padding: 5px;
         border-radius: 4px;
         box-shadow: 0px 0px 13px -1px #444;
@@ -798,10 +804,17 @@ license that can be found in the LICENSE file.
       ready: function() {
 
       },
-      update: function(data){
+      update: function(data, at){
+
         var self = this;
+        console.log('DATA', data);
+        console.log('AT', at);
+
+        var size = at || "Bedrooms";
+
         this.$.chartscatter.innerHTML = "";
         this.$.chartscatter.style.display = "block";
+
         var xAttr = 'distance';
         var xAxisLabel = 'To Trail';
         var me = this;
@@ -833,8 +846,7 @@ license that can be found in the LICENSE file.
         //d3.tsv("data/data.tsv", function(error, data) {
           
           data.forEach(function(d) {
-            d[xAttr] = ((+d[xAttr]) * 3)/5280;
-            
+            d[xAttr] = ( at ) ? (+d[xAttr]) : ((+d[xAttr]) * 3)/5280;
             d.minPrice = +d.minPrice;
           });
           
@@ -867,7 +879,7 @@ license that can be found in the LICENSE file.
               .data(data)
             .enter().append("circle")
               .attr("class", "dot")
-              .attr("r", function(d) { return d.Bedrooms * 2 })
+              .attr("r", function(d) { return d[ size ] * 2 })
               .attr("cx", function(d) { return x(d[xAttr]); })
               .attr("cy", function(d) { return 200 })
               .style("fill", '#6d8ca0')
@@ -875,14 +887,14 @@ license that can be found in the LICENSE file.
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.Bedrooms * 2.5 })
+                    .attr('r', function(d) { return d[ size ] * 2.5 })
                   self._nodeEnter(d);
               })
               .on('mouseout', function(d) {
                 d3.select(this)
                   .transition()
                   .duration(200)
-                    .attr('r', function(d) { return d.Bedrooms * 2 })
+                    .attr('r', function(d) { return d[ size ] * 2 })
                   self._nodeExit(d);
               })
               .transition()
@@ -945,13 +957,14 @@ license that can be found in the LICENSE file.
 
       <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
 
+      <stylist-element format="esri" type="point"></stylist-element>
+      
       <div id="elements-right">
         <woot-details></woot-details>   
       </div>
 
       <div id="elements-bottom">
-        <stylist-element format="esri" type="point"></stylist-element>
-
+        
         <woot-scatter-chart></woot-scatter-chart>
         <!--
         <chart-line id="bedrooms"
