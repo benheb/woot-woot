@@ -122,6 +122,12 @@ Polymer('woot-map', {
     this.vrboLayer.renderer.symbol.size = size;
     this.vrboLayer.redraw();
   },
+  selectVrbo: function (id) {
+    //TODO: implement this!
+  },
+  deselectVrbo: function () {
+    //TODO: implement this!
+  },
   _lineClick: function(e){
     var me = this;
     this.map.graphics.clear();

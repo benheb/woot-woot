@@ -27,5 +27,14 @@ Polymer('woot-details', {
     if (vrbos) {
       this.vrbos = vrbos;
     }
+  },
+  onMouseOver: function (e, detail, sender) {
+    var id = e.target.getAttribute('data-id');
+    if (id) {
+      this.fire('select:vrbo', +id);
+    }
+  },
+  onMouseOut: function (e, detail, sender) {
+    this.fire('deselect:vrbo');
   }
 });

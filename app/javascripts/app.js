@@ -17,6 +17,9 @@ var WootController = function ($) {
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
   styleListEl.addEventListener('graduate-symbols', onStyleListGraduateSymbol);
+
+  detailsEl.addEventListener('select:vrbo', onSelectVrbo);
+  detailsEl.addEventListener('deselect:vrbo', onDeselectVrbo);
   
   mapEl.addEventListener('layer-added', onLayerAdded);
 
@@ -44,6 +47,14 @@ var WootController = function ($) {
 
   function onStyleListGraduateSymbol (e) {
     mapEl.graduateSymbols( e.detail.msg );
+  }
+
+  function onSelectVrbo (e) {
+    mapEl.selectVrbo(e.detail);
+  }
+
+  function onDeselectVrbo () {
+    mapEl.deselectVrbo();
   }
 
   function onLayerAdded (layer) {
