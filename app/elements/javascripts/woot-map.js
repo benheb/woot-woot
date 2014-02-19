@@ -7,12 +7,13 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleFillSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
-      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', "esri/renderers/SimpleRenderer", "esri/layers/FeatureLayer", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/symbols/SimpleLineSymbol","esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleMarkerSymbol", "dojo/_base/Color", "esri/graphic", 'dojo/domReady!'], 
+      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color, Graphic) {
       me.BufferParameters = BufferParameters;
       me.GeometryService = GeometryService;
       me.SimpleLineSymbol = SimpleLineSymbol;
       me.SimpleFillSymbol = SimpleFillSymbol;
+      me.SimpleMarkerSymbol = SimpleMarkerSymbol;
       me.Color = Color;
       me.Graphic = Graphic;
       
@@ -161,22 +162,33 @@ Polymer('woot-map', {
         new this.Color([241, 196, 15, 0.35])
       );
 
-      var inside = [], pntGraphic, graphic;
+      var pntSymbol = new this.SimpleMarkerSymbol(
+        this.SimpleMarkerSymbol.STYLE_CIRCLE, 15, 
+        new this.SimpleLineSymbol(
+          this.SimpleLineSymbol.STYLE_SOLID, 
+          new this.Color([211, 84, 0]), 1
+        ), 
+        new this.Color([211, 84, 0, 0.55])
+      );
+
+      this.insidePoints = []; 
+      var pntGraphic, graphic;
+
       bufferedGeometries.forEach(function(geometry) {
         graphic = new me.Graphic(geometry, symbol);
         me.map.graphics.add( graphic );
 
         me.vrboLayer.graphics.forEach(function(point){
           if (geometry.contains(point.geometry)){
-            console.log(true);
-            me.map.graphics.add(new me.Graphic(point.geometry, symbol));      
+            var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
+            me.insidePoints.push( pntGraphic );
+            me.map.graphics.add( pntGraphic );      
           }
         });
       });
   }, 
 
   graduateSymbols: function(attr) {
-    console.log('attr', attr);
     var renderer = this.vrboLayer.renderer;
     renderer.setProportionalSymbolInfo({
       field: attr,
