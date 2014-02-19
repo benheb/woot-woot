@@ -154,18 +154,18 @@ Polymer('woot-map', {
         this.SimpleFillSymbol.STYLE_SOLID,
         new this.SimpleLineSymbol(
           this.SimpleLineSymbol.STYLE_SOLID,
-          new this.Color([241, 196, 15, 0.65 ]), 2
+          new this.Color([31,76,112,0.35]), 1
         ),
-        new this.Color([241, 196, 15, 0.35])
+        new this.Color([149, 165, 166, 0.60])
       );
 
       var pntSymbol = new this.SimpleMarkerSymbol(
         this.SimpleMarkerSymbol.STYLE_CIRCLE, 15, 
         new this.SimpleLineSymbol(
           this.SimpleLineSymbol.STYLE_SOLID, 
-          new this.Color([211, 84, 0]), 1
+          new this.Color([241, 196, 15, .35]), 2
         ), 
-        new this.Color([211, 84, 0, 0.55])
+        new this.Color([255, 255, 55, 200])
       );
 
       this.insidePoints = []; 

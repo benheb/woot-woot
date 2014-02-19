@@ -233,13 +233,19 @@ module.exports = function (grunt) {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
-        }
-    });
+        },
+      'gh-pages': {
+        options: {
+          base: 'dist'
+        },
+        src: '**/*'
+      }
+    });    
 
-    grunt.registerTask('server', function (target) {
-        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-        grunt.task.run(['serve:' + target]);
-    });
+
+    grunt.registerTask('default', [
+        'serve'
+    ]);
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -266,6 +272,7 @@ module.exports = function (grunt) {
         'mocha'
     ]);
 
+    grunt.file.mkdir( 'dist' );
     grunt.registerTask('build', [
         'clean:dist',
         'compass:dist',
@@ -280,9 +287,9 @@ module.exports = function (grunt) {
         'usemin'
     ]);
 
-    grunt.registerTask('default', [
-        'jshint',
-        // 'test'
-        'build'
-    ]);
+    grunt.loadNpmTasks('grunt-gh-pages');    
+    grunt.registerTask("deploy", [
+        'build',
+        'gh-pages'
+    ]);    
 };
