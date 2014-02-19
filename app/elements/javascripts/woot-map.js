@@ -15,8 +15,8 @@ Polymer('woot-map', {
   map: null,
   ready: function() {
     var me = this;
-    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'esri/renderers/SimpleRenderer', 'esri/layers/FeatureLayer', 'esri/tasks/GeometryService', 'esri/tasks/BufferParameters', 'esri/symbols/SimpleLineSymbol','esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleMarkerSymbol', 'dojo/_base/Color', 'esri/graphic', 'dojo/domReady!'], 
-      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color, Graphic) {
+    require(['esri/map', 'esri/arcgis/utils', 'esri/geometry/Extent', 'esri/renderers/SimpleRenderer', 'esri/layers/FeatureLayer', 'esri/layers/GraphicsLayer', 'esri/tasks/GeometryService', 'esri/tasks/BufferParameters', 'esri/symbols/SimpleLineSymbol','esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleMarkerSymbol', 'dojo/_base/Color', 'esri/graphic', 'dojo/domReady!'], 
+      function(Map, arcgisUtils, Extent, SimpleRenderer, FeatureLayer, GraphicsLayer, GeometryService, BufferParameters, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color, Graphic) {
       me.BufferParameters = BufferParameters;
       me.GeometryService = GeometryService;
       me.SimpleLineSymbol = SimpleLineSymbol;
@@ -44,6 +44,10 @@ Polymer('woot-map', {
         });
       } else {
         me.map = new Map(me.$.map, mapOptions);
+
+        me.bufferLayer = new GraphicsLayer({ "id": "buffer" });
+        me.map.addLayer( me.bufferLayer );
+
         me.vrboLayer = new FeatureLayer( 'http://koop.dc.esri.com:8080/vrbo/-116.997/34.225/-116.785/34.265/FeatureServer/0', {
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
           outFields: ['*']
@@ -75,7 +79,7 @@ Polymer('woot-map', {
         var lineJson = {
           "type": "simple",
           "symbol": {
-            "color": [39, 174, 96, 150],
+            "color": [65, 160, 13, 150],
             "width": 2,
             "type": "esriSLS",
             "style": "esriSLSSolid"
@@ -108,6 +112,7 @@ Polymer('woot-map', {
         var rend = new SimpleRenderer(simpleJson);
         me.vrboLayer.setRenderer( rend );
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
+        //me.vrboLayer.on('mouse-over', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
         // FIXME: move this into stylist.js
@@ -152,6 +157,7 @@ Polymer('woot-map', {
   },
   _lineClick: function(e){
     var me = this;
+    this.bufferLayer.clear();
     this.map.graphics.clear();
     var geometry = e.graphic.geometry;
     var symbol = new this.SimpleLineSymbol(this.SimpleLineSymbol.STYLE_SOLID, new this.Color([41, 128, 185]), 3);
@@ -197,11 +203,11 @@ Polymer('woot-map', {
       );
 
       this.insidePoints = []; 
-      var pntGraphic, graphic;
+      var pntGraphic, buffer;
 
       bufferedGeometries.forEach(function(geometry) {
-        graphic = new me.Graphic(geometry, symbol);
-        me.map.graphics.add( graphic );
+        buffer = new me.Graphic(geometry, symbol);
+        me.bufferLayer.add( buffer );
 
         me.vrboLayer.graphics.forEach(function(point){
           if (geometry.contains(point.geometry)){
@@ -225,7 +231,6 @@ Polymer('woot-map', {
   },
 
   graduateSymbols: function(attr) {
-    console.log("graduateSymbols", attr)
     var self = this;
     var renderer = this.vrboLayer.renderer;
     var vals = []
