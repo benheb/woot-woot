@@ -70,6 +70,15 @@ circle:hover {
   stroke-width:2;
 }
 
+.trails path {
+  cursor:pointer;
+}
+
+.trails path:hover {
+  stroke:#0FF;
+  stroke-width:4;
+}
+
 .listing-el {
   margin-bottom:5px;
   overflow:hidden;
