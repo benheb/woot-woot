@@ -23,7 +23,6 @@ var WootController = function ($) {
   
   mapEl.addEventListener('layer-added', onLayerAdded);
 
-
   //Private Methods
   function onVrboLayerClicked (e) {
     detailsEl.updateVrbo(e.detail.graphic.attributes);
@@ -59,16 +58,8 @@ var WootController = function ($) {
 
   function onLayerAdded (layer) {
     if ( layer.impl.detail.layer.id === 'graphicsLayer3' ) {
-      var fields = layer.impl.detail.layer.fields;
-      for(var i = 0; i<fields.length;i++) {
-        if ( fields[ i ].type === "esriFieldTypeInteger" ) {
-          var option = document.createElement('option');
-          option.innerHTML = fields[i].alias;
-          document.getElementById('graduate-symbol-list').appendChild(option);
-        }
-      }
+      styleListEl.addLayer(layer);
     }
-    //mapEl.changeSize( e.detail.msg );
   }
 };
 

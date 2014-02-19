@@ -110,6 +110,7 @@ Polymer('woot-map', {
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
+        // FIXME: move this into stylist.js
         var grad = me.vrboLayer.renderer;
         grad.setProportionalSymbolInfo({
           field: "Bedrooms",
@@ -212,6 +213,7 @@ Polymer('woot-map', {
   }, 
 
   graduateSymbols: function(attr) {
+    console.log("graduateSymbols", attr)
     var self = this;
     var renderer = this.vrboLayer.renderer;
     var vals = []
