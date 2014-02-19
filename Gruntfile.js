@@ -233,8 +233,19 @@ module.exports = function (grunt) {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
-        }
+        },
+        build_gh_pages: {
+            gh_pages: {
+              // Leave empty if you just want to run the defaults
+            },
+            production: {
+              options: {
+
+              }
+            }
+          }     
     });
+    grunt.loadNpmTasks('grunt-build-gh-pages');
 
     grunt.registerTask('server', function (target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
