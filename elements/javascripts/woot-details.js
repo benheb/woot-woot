@@ -31,10 +31,14 @@ Polymer('woot-details', {
   onMouseOver: function (e, detail, sender) {
     var id = e.target.getAttribute('data-id');
     if (id) {
+      console.log('select:vrbo:' + id);
       this.fire('select:vrbo', +id);
+    }else{
+      console.log('no id');
     }
   },
   onMouseOut: function (e, detail, sender) {
+    //console.log('deselect:vrbo');
     this.fire('deselect:vrbo');
   }
 });

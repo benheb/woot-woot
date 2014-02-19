@@ -216,6 +216,7 @@ Polymer('woot-map', {
       }
     });
   },
+  
   _lineClick: function(e){
     var me = this;
     this.bufferLayer.clear();

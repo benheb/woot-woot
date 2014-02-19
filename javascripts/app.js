@@ -33,12 +33,13 @@ var WootController = function () {
 
   function onScatterSelect(e){ 
     detailsEl.updateVrbo(e.detail.msg);
-    //mapEl.hilight
+    mapEl.highlightVrbo(e.detail.msg.id);
   }
 
   function onScatterExit(e){ 
     var data = Woot.rawBufferData;
     detailsEl.updateTrail(null, data);
+    mapEl.highlightVrbo();
   }
 
   //Private Methods
