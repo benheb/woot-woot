@@ -52,11 +52,14 @@
       update: function(data, at){
 
         var self = this;
+        console.log('DATA', data);
+        console.log('AT', at);
 
-        var size = "Bedrooms";
+        var size = at || "Bedrooms";
 
         this.$.chartscatter.innerHTML = "";
         this.$.chartscatter.style.display = "block";
+
         var xAttr = 'distance';
         var xAxisLabel = 'To Trail';
         var me = this;
@@ -88,8 +91,7 @@
         //d3.tsv("data/data.tsv", function(error, data) {
           
           data.forEach(function(d) {
-            d[xAttr] = ((+d[xAttr]) * 3)/5280;
-            
+            d[xAttr] = ( at ) ? (+d[xAttr]) : ((+d[xAttr]) * 3)/5280;
             d.minPrice = +d.minPrice;
           });
           
