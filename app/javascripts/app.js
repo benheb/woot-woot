@@ -34,6 +34,11 @@ var WootController = function ($) {
 
   function onBufferPoints ( e ) {
     detailsEl.updateTrail(null, e.detail);
+
+    self.debug('inside points')
+    self.debug(e.detail);
+    //console.log(JSON.stringify(e.detail));
+    var data = DataMuncher.aggregateProperties(e.detail);
   }
 
   function onStyleListColorChanged (e) {

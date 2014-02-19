@@ -21,6 +21,25 @@ var DataMuncher = {
    */
   _parsePrice: function(priceString){
 
+
+    var noDollars = priceString.replace(/\$/g,'');
+    var parts = noDollars.split(' ');
+    var price ={min:0, max:0};
+    parts.forEach(function(part){
+
+      if(parseInt(part)){
+        var num = parseInt(part);
+        if(price.min === 0){
+          price.min = num;
+        }else{
+          price.max = num;
+        }
+      }
+    });
+
+    return price;
+
+
   }
 
 };
