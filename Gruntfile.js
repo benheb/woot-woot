@@ -296,4 +296,9 @@ module.exports = function (grunt) {
         // 'test'
         'build'
     ]);
+    grunt.registerTask("deploy", [
+        'clean',
+        'copy',
+        'build_gh_pages:gh_pages'
+    ]);
 };
