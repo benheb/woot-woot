@@ -124,8 +124,10 @@
   <script>
     Polymer("chart-line", {
       ready: function () {
+        //get context and create the chart
         this.ctx = this.$.canvas.getContext('2d');
         this.chart = new Chart(this.ctx);
+        //now apply the data
         this._update();
       },
 
@@ -143,7 +145,7 @@
 
         this.data = { labels: this.labels, datasets: this.datasets };
 
-        console.log(this.data);
+        //console.log(this.data);
 
         //this.ctx = this.$.canvas.getContext('2d');
         this.chart.Line(this.data);
