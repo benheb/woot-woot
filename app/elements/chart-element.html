@@ -27,6 +27,15 @@
   <script>
     Polymer("chart-pie", {
       ready: function () {
+        this.update();
+      },
+      attributeChanged: function(attrName, oldVal, newVal) {
+        console.log('attribute changed: ' + attrName); 
+        if(attrName === 'values'){
+          this.update();
+        }
+      },
+      update: function(){
         this.data = [];
         this.values.forEach(function (val, i) {
           this.data.push({ color: this.colors[i], value: val });
@@ -115,6 +124,10 @@
   <script>
     Polymer("chart-line", {
       ready: function () {
+        this._update();
+      },
+
+      _update:function(){
         this.datasets = [];
         this.values.forEach(function (val, i) {
           this.datasets.push({
@@ -133,6 +146,7 @@
         this.ctx = this.$.canvas.getContext('2d');
         this.chart = new Chart(this.ctx).Line(this.data);
       },
+
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
       values: [
         [65,59,90,81,56,55,40],

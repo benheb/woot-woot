@@ -8,6 +8,8 @@ var WootController = function ($) {
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
   var detailsEl = document.querySelector('woot-details');
+  var lineChartEl = document.querySelector('chart-line');
+  var pieChartEl = document.querySelector('chart-pie');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
@@ -39,6 +41,13 @@ var WootController = function ($) {
     self.debug(e.detail);
     //console.log(JSON.stringify(e.detail));
     var data = DataMuncher.aggregateProperties(e.detail);
+    
+    //pass bedrooms to pie chart
+    //pieChartEl.values = data.Bedrooms.values;
+    lineChartEl.values = [ data.Bedrooms.values ];
+    lineChartEl.labels = data.Bedrooms.keys;
+    lineChartEl._update();
+
   }
 
   function onStyleListColorChanged (e) {
