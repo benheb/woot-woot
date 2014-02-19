@@ -23,8 +23,9 @@ html, body, #map {
 #elements-bottom {
   position:absolute;
   bottom:10px;
-  height:315px;
+  height:250px;
   z-index: 100;
+  width:100%;
 }
 
 woot-details img {
@@ -36,7 +37,7 @@ woot-details img {
 #elements-right {
   position:absolute;
   top: 60px;
-  bottom: 10px;
+  bottom: 25px;
   right: 10px;
   width: 250px;
   z-index: 100;

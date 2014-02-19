@@ -48,10 +48,7 @@ Polymer('woot-map', {
                 "type": "esriSMS",
                 "style": "esriSMSCircle",
                 "color": [
-                    37,
-                    52,
-                    148,
-                    255
+                  31,76,112,200
                 ],
                 "outline": {
                     "color": [
@@ -62,7 +59,7 @@ Polymer('woot-map', {
                     ],
                     "style": "esriSLSSolid",
                     "type": "esriSLS",
-                    "width": 0
+                    "width": 1
                 }
             }
         };
@@ -182,9 +179,10 @@ Polymer('woot-map', {
           if (geometry.contains(point.geometry)){
             var pntGraphic = new me.Graphic( point.geometry, pntSymbol );
             me.insidePoints.push( pntGraphic );
-            me.map.graphics.add( pntGraphic );      
+            me.map.graphics.add( pntGraphic );
           }
         });
+        me.fire('buffer:points', me.insidePoints);
       });
   }, 
 
