@@ -1,0 +1,54 @@
+<polymer-element name="woot-details" attributes="">
+    <template>
+      <style>
+        :host {
+          width: 100%;
+          height: auto;
+          overflow: hidden;
+          padding: 10px;
+          background-color: rgb(255, 255, 255);
+          border: 1px solid rgb(102, 102, 102);
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-bottom-left-radius: 4px;
+          box-shadow: rgb(68, 68, 68) 0px 0px 13px -1px;
+          position: absolute;
+          max-height: 100%;
+          overflow-y: auto;
+        }
+      </style>      
+      <template if="{{!vrbo}}">
+        <h2>Welcome to Trail::Bed</h2>
+        <p>
+          Trail::Bed helps you find great places to stay near the trails you love to hike. Choose from any of the VRBO House Rentals or select your favorite trail to find the houses the match your criteria.
+        </p>
+      </template>
+      
+      <template if="{{vrbo}}">
+        <div>
+          <h4>Listing Details</h4>
+          <dl>
+            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>  
+            <div class="listing-el"><dt>Average Review:</dt><dd>{{AverageReview}}</dd></div> 
+            <div class="listing-el"><dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd></div>
+            <div class="listing-el"><dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd></div>  
+            <div class="listing-el"><dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd></div>     
+            <div class="listing-el"><dt>Sleeps:</dt><dd>{{Sleeps}}</dd></div>        
+            <div class="listing-el"><dt>Region:</dt><dd>{{RegionName}}</dd></div>
+            <div class="listing-el"><dd class="image-dd"><img src="{{ImageURL}}" /></dd></div>
+          </dl>
+        </div>
+      </template>
+
+      <template if="{{trail}}">
+        <div>
+          <h4>{{Name}}</h4>
+        </div>
+      </template>
+
+    </template>
+    
+    <script src="javascripts/woot-details.js"></script>
+
+</polymer-element>

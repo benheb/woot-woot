@@ -1,0 +1,114 @@
+<polymer-element name="stylist-element" attributes="ramps format type">
+
+    <template>
+      <style>
+        #stylist-element-container {
+          width:auto;
+          height:220px;
+          overflow:hidden;
+          padding-bottom:20px;
+          background-color: #FFF;
+          border: 1px solid #666;
+          margin: 15px;
+          padding: 5px;
+          border-radius: 4px;
+          box-shadow: 0px 0px 13px -1px #444;
+        }
+        #stylist-left {
+          width:168px;
+          float:left;
+        }
+        #stylist-right {
+          width:168px;
+          float:right;
+        }
+        #stylist-element-ul-colors {
+          list-style: none;
+          margin:0px;
+          padding:0px;
+          margin-bottom: 4px;
+          overflow: hidden;
+        }
+        .color {
+          cursor:pointer;
+          width:20px;
+          height:20px;
+          border:1px solid #CCC;
+          float:left;
+          margin:3px;
+        }
+        .color:hover {
+          border:1px solid #999;
+        }
+      </style>
+      <div id="stylist-element-container">
+        <div id="stylist-left">
+          <template if="{{ramps === 'one'}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+            </ul>  
+          </template>
+          <template if="{{ramps === 'two'}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+              
+              <li on-click="{{changeColor}}" class="color" id="ffffcc" style="background:#ffffcc"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9b4" style="background:#c7e9b4"></li>
+              <li on-click="{{changeColor}}" class="color" id="7fcdbb" style="background:#7fcdbb"></li>
+              <li on-click="{{changeColor}}" class="color" id="41b6c4" style="background:#41b6c4"></li>
+              <li on-click="{{changeColor}}" class="color" id="2c7fb8" style="background:#2c7fb8"></li>
+              <li on-click="{{changeColor}}" class="color" id="253494" style="background:#253494"></li>
+            </ul>  
+          </template>
+          <template if="{{ramps === 'three'}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+              
+              <li on-click="{{changeColor}}" class="color" id="ffffcc" style="background:#ffffcc"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9b4" style="background:#c7e9b4"></li>
+              <li on-click="{{changeColor}}" class="color" id="7fcdbb" style="background:#7fcdbb"></li>
+              <li on-click="{{changeColor}}" class="color" id="41b6c4" style="background:#41b6c4"></li>
+              <li on-click="{{changeColor}}" class="color" id="2c7fb8" style="background:#2c7fb8"></li>
+              <li on-click="{{changeColor}}" class="color" id="253494" style="background:#253494"></li>
+
+              <li on-click="{{changeColor}}" class="color" id="edf8e9" style="background:#edf8e9"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9c0" style="background:#c7e9c0"></li>
+              <li on-click="{{changeColor}}" class="color" id="a1d99b" style="background:#a1d99b"></li>
+              <li on-click="{{changeColor}}" class="color" id="74c476" style="background:#74c476"></li>
+              <li on-click="{{changeColor}}" class="color" id="31a354" style="background:#31a354"></li>
+              <li on-click="{{changeColor}}" class="color" id="006d2c" style="background:#006d2c"></li>
+            </ul>  
+          </template>
+
+          <div style="display:none">
+            <h5>Marker Size</h5>
+            <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
+          </div>
+
+          <h5>Graduated Symbols</h5>
+          <select on-change="{{graduateSymbols}}" id="graduate-symbol-list" class="form-control">
+            <option>Select Attribute</option>
+          </select>
+        </div>
+      </div>
+      
+    </template>
+    
+    <script src="javascripts/stylist.js"></script>
+
+</polymer-element>

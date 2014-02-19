@@ -1,0 +1,586 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Trail::Bed</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- jsapi -->
+        <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+        <script src="http://js.arcgis.com/3.8/"></script>
+
+        <link rel="stylesheet" href="styles/main.css">
+
+
+        <!-- Place your HTML imports here -->
+        <script src="../app/bower_components/platform/platform.js"></script>
+
+        <script src="../app/bower_components/chartjs/chart.min.js"></script>
+        
+        
+        
+        
+        
+        
+    </head>
+    <body><polymer-element name="polymer-body" extends="body" assetpath="../app/bower_components/polymer/">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element>
+<!--
+ Copyright 2013 The Polymer Authors. All rights reserved.
+ Use of this source code is governed by a BSD-style
+ license that can be found in the LICENSE file.
+-->
+<script src="../app/bower_components/polymer/polymer.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+
+
+
+<polymer-element name="polymer-list" attributes="" assetpath="../app/elements/">
+  <template>
+    <style>
+      /* styles for the custom element itself - lowest specificity */
+      :host { display: block; }
+      /* 
+      style if an ancestor has the different class
+      :host(.different) { } 
+      */
+    </style>
+    <ul>
+      <template id="greeting" repeat="{{ item in items }}">
+        <li>{{ item }}</li>
+      </template>
+    </ul>
+  </template>
+  <script>
+    Polymer('polymer-list', {
+      ready: function() {
+        this.items = [
+          'HTML5 Boilerplate',
+          'Web Component Polyfills',
+          'Polymer'
+        ];
+      }
+    });
+  </script>
+</polymer-element>
+
+
+<polymer-element name="polymer-greeting" attributes="" assetpath="../app/elements/">
+  <template>
+    <style>
+      /* styles for the custom element itself - lowest specificity */
+      :host { display: block; }
+      /* 
+      style if an ancestor has the different class
+      :host(.different) { } 
+      */
+    </style>
+    <h1>{{ greeting }}, {{ greeting }}!</h1>
+    <span>Update text to change the greeting.</span>
+    <input type="text" value="{{ greeting }}">
+  </template>
+  <script>
+    Polymer('polymer-greeting', {
+      greeting : '\'Allo'
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="woot-map" attributes="webMapId, basemap, extent" assetpath="../app/elements/">
+  <template>
+    <style>
+        /*host refers to the custom element itself and has the lowest specificity; thus allowing users to override your styling from the outside*/
+        #map {
+          display: block; /* Note: by default elements are always display:inline. */
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+      </style>
+
+      <div id="map"></div>
+  </template>
+
+  <script src="../app/elements/javascripts/woot-map.js"></script>
+</polymer-element>
+<polymer-element name="stylist-element" attributes="ramps format type" assetpath="../app/elements/">
+
+    <template>
+      <style>
+        #stylist-element-container {
+          width:auto;
+          height:220px;
+          overflow:hidden;
+          padding-bottom:20px;
+          background-color: #FFF;
+          border: 1px solid #666;
+          margin: 15px;
+          padding: 5px;
+          border-radius: 4px;
+          box-shadow: 0px 0px 13px -1px #444;
+        }
+        #stylist-left {
+          width:168px;
+          float:left;
+        }
+        #stylist-right {
+          width:168px;
+          float:right;
+        }
+        #stylist-element-ul-colors {
+          list-style: none;
+          margin:0px;
+          padding:0px;
+          margin-bottom: 4px;
+          overflow: hidden;
+        }
+        .color {
+          cursor:pointer;
+          width:20px;
+          height:20px;
+          border:1px solid #CCC;
+          float:left;
+          margin:3px;
+        }
+        .color:hover {
+          border:1px solid #999;
+        }
+      </style>
+      <div id="stylist-element-container">
+        <div id="stylist-left">
+          <template if="{{ramps === &apos;one&apos;}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+            </ul>  
+          </template>
+          <template if="{{ramps === &apos;two&apos;}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+              
+              <li on-click="{{changeColor}}" class="color" id="ffffcc" style="background:#ffffcc"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9b4" style="background:#c7e9b4"></li>
+              <li on-click="{{changeColor}}" class="color" id="7fcdbb" style="background:#7fcdbb"></li>
+              <li on-click="{{changeColor}}" class="color" id="41b6c4" style="background:#41b6c4"></li>
+              <li on-click="{{changeColor}}" class="color" id="2c7fb8" style="background:#2c7fb8"></li>
+              <li on-click="{{changeColor}}" class="color" id="253494" style="background:#253494"></li>
+            </ul>  
+          </template>
+          <template if="{{ramps === &apos;three&apos;}}">
+            <ul id="stylist-element-ul-colors">
+              <li on-click="{{changeColor}}" class="color" id="ffffd4" style="background:#ffffd4"></li>
+              <li on-click="{{changeColor}}" class="color" id="fed98e" style="background:#fed98e"></li>
+              <li on-click="{{changeColor}}" class="color" id="fec44f" style="background:#fec44f"></li>
+              <li on-click="{{changeColor}}" class="color" id="fe9929" style="background:#fe9929"></li>
+              <li on-click="{{changeColor}}" class="color" id="d95f0e" style="background:#d95f0e"></li>
+              <li on-click="{{changeColor}}" class="color" id="993404" style="background:#993404"></li>
+              
+              <li on-click="{{changeColor}}" class="color" id="ffffcc" style="background:#ffffcc"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9b4" style="background:#c7e9b4"></li>
+              <li on-click="{{changeColor}}" class="color" id="7fcdbb" style="background:#7fcdbb"></li>
+              <li on-click="{{changeColor}}" class="color" id="41b6c4" style="background:#41b6c4"></li>
+              <li on-click="{{changeColor}}" class="color" id="2c7fb8" style="background:#2c7fb8"></li>
+              <li on-click="{{changeColor}}" class="color" id="253494" style="background:#253494"></li>
+
+              <li on-click="{{changeColor}}" class="color" id="edf8e9" style="background:#edf8e9"></li>
+              <li on-click="{{changeColor}}" class="color" id="c7e9c0" style="background:#c7e9c0"></li>
+              <li on-click="{{changeColor}}" class="color" id="a1d99b" style="background:#a1d99b"></li>
+              <li on-click="{{changeColor}}" class="color" id="74c476" style="background:#74c476"></li>
+              <li on-click="{{changeColor}}" class="color" id="31a354" style="background:#31a354"></li>
+              <li on-click="{{changeColor}}" class="color" id="006d2c" style="background:#006d2c"></li>
+            </ul>  
+          </template>
+
+          <div style="display:none">
+            <h5>Marker Size</h5>
+            <span style="float:left">1</span><span style="float:right">20</span><input on-change="{{changeSize}}" type="range" name="points" min="1" max="20">
+          </div>
+
+          <h5>Graduated Symbols</h5>
+          <select on-change="{{graduateSymbols}}" id="graduate-symbol-list" class="form-control">
+            <option>Select Attribute</option>
+          </select>
+        </div>
+      </div>
+      
+    </template>
+    
+    <script src="../app/elements/javascripts/stylist.js"></script>
+
+</polymer-element>
+
+<!-- Pie -->
+
+<polymer-element name="chart-pie" attributes="values colors" assetpath="../app/elements/">
+  <template>
+    <style>
+      #pie-chart-element-container {
+        width:200px;
+        height:220px;
+        float:left;
+        overflow:hidden;
+        padding-bottom:20px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        margin: 15px;
+        margin-left:0px;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 13px -1px #444;
+      }
+    </style>
+    <div id="pie-chart-element-container">
+      <h5>Charts</h5>
+      <canvas id="canvas" width="200" height="175"></canvas>
+    </div>
+  </template>
+  <script>
+    Polymer("chart-pie", {
+      ready: function () {
+        this.data = [];
+        this.values.forEach(function (val, i) {
+          this.data.push({ color: this.colors[i], value: val });
+        }, this);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).Pie(this.data);
+      },
+      values: [30, 50, 100, 40, 120],
+      colors: ["#EF9283", "#FCDFA5", "#B8E2BA", "#C2B6A0", "#FECD81"]
+    });
+  </script>
+</polymer-element>
+
+<!-- Doughnut -->
+
+<polymer-element name="chart-doughnut" attributes="values colors" assetpath="../app/elements/">
+  <template>
+    <canvas id="canvas" width="200" height="200"></canvas>
+  </template>
+  <script>
+    Polymer("chart-doughnut", {
+      ready: function () {
+        this.data = [];
+        this.values.forEach(function (val, i) {
+          this.data.push({ color: this.colors[i], value: val });
+        }, this);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).Doughnut(this.data);
+      },
+      values: [30, 50, 100, 40, 120],
+      colors: ["#EF9283", "#FCDFA5", "#B8E2BA", "#C2B6A0", "#FECD81"]
+    });
+  </script>
+</polymer-element>
+
+<!-- Polar Area -->
+
+<polymer-element name="chart-polar-area" attributes="values colors" assetpath="../app/elements/">
+  <template>
+    <canvas id="canvas" width="200" height="200"></canvas>
+  </template>
+  <script>
+    Polymer("chart-polar-area", {
+      ready: function () {
+        this.data = [];
+        this.values.forEach(function (val, i) {
+          this.data.push({ color: this.colors[i], value: val });
+        }, this);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).PolarArea(this.data);
+      },
+      values: [30, 90, 18, 58, 82],
+      colors: ["#FCDFA5", "#B8E2BA", "#C2B6A0", "#FECD81", "#EF9283"]
+    });
+  </script>
+</polymer-element>
+
+<!-- Line -->
+
+<polymer-element name="chart-line" attributes="labels values colors" assetpath="../app/elements/">
+  <template>
+    <style>
+    #line-chart-element-container {
+        width:400px;
+        height:220px;
+        overflow:hidden;
+        padding-bottom:20px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        margin: 15px;
+        margin-left:0px;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 13px -1px #444;
+        float:left;
+      }
+    </style>
+    <div id="line-chart-element-container">
+      <h5>Charts</h5>
+      <canvas id="canvas" width="400" height="175"></canvas>
+    </div>
+  </template>
+  <script>
+    Polymer("chart-line", {
+      ready: function () {
+        this.datasets = [];
+        this.values.forEach(function (val, i) {
+          this.datasets.push({
+            fillColor:    "rgba(" + this.colors[i] + ",0.5)",
+            strokeColor:  "rgba(" + this.colors[i] + ",1)",
+            pointColor:   "rgba(" + this.colors[i] + ",1)",
+            pointStrokeColor: "#fff",
+            data: this.values[i]
+          });
+        }, this);
+
+        this.data = { labels: this.labels, datasets: this.datasets };
+
+        console.log(this.data);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).Line(this.data);
+      },
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      values: [
+        [65,59,90,81,56,55,40],
+        [28,48,40,19,96,27,100]
+      ],
+      colors: [
+        "239,146,131",
+        "252,223,165",
+        "184,226,186",
+        "194,182,160",
+        "254,205,129"
+      ]
+    });
+  </script>
+</polymer-element>
+
+<!-- Bar -->
+
+<polymer-element name="chart-bar" attributes="labels values colors" assetpath="../app/elements/">
+  <template>
+    <canvas id="canvas" width="450" height="200"></canvas>
+  </template>
+  <script>
+    Polymer("chart-bar", {
+      ready: function () {
+        this.datasets = [];
+        this.values.forEach(function (val, i) {
+          this.datasets.push({
+            fillColor:    "rgba(" + this.colors[i] + ",0.5)",
+            strokeColor:  "rgba(" + this.colors[i] + ",1)",
+            data: this.values[i]
+          });
+        }, this);
+
+        this.data = { labels: this.labels, datasets: this.datasets };
+
+        console.log(this.data);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).Bar(this.data);
+      },
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      values: [
+        [65,59,90,81,56,55,40],
+        [28,48,40,19,96,27,100]
+      ],
+      colors: [
+        "239,146,131",
+        "252,223,165",
+        "184,226,186",
+        "194,182,160",
+        "254,205,129"
+      ]
+    });
+  </script>
+</polymer-element>
+
+<!-- Radar -->
+
+<polymer-element name="chart-radar" attributes="labels values colors" assetpath="../app/elements/">
+  <template>
+    <canvas id="canvas" width="200" height="200"></canvas>
+  </template>
+  <script>
+    Polymer("chart-radar", {
+      ready: function () {
+        this.datasets = [];
+        this.values.forEach(function (val, i) {
+          this.datasets.push({
+            fillColor:    "rgba(" + this.colors[i] + ",0.5)",
+            strokeColor:  "rgba(" + this.colors[i] + ",1)",
+            pointColor:   "rgba(" + this.colors[i] + ",1)",
+            pointStrokeColor: "#fff",
+            data: this.values[i]
+          });
+        }, this);
+
+        this.data = { labels: this.labels, datasets: this.datasets };
+
+        console.log(this.data);
+
+        this.ctx = this.$.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx).Radar(this.data);
+      },
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      values: [
+        [65,59,90,81,56,55,40],
+        [28,48,40,19,96,27,100]
+      ],
+      colors: [
+        "239,146,131",
+        "252,223,165",
+        "184,226,186",
+        "194,182,160",
+        "254,205,129"
+      ]
+    });
+  </script>
+</polymer-element>
+<polymer-element name="woot-details" attributes="" assetpath="../app/elements/">
+    <template>
+      <style>
+        :host {
+          width: 100%;
+          height: auto;
+          overflow: hidden;
+          padding: 10px;
+          background-color: rgb(255, 255, 255);
+          border: 1px solid rgb(102, 102, 102);
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-bottom-left-radius: 4px;
+          box-shadow: rgb(68, 68, 68) 0px 0px 13px -1px;
+          position: absolute;
+          max-height: 100%;
+          overflow-y: auto;
+        }
+      </style>      
+      <template if="{{!vrbo}}">
+        <h2>Welcome to Trail::Bed</h2>
+        <p>
+          Trail::Bed helps you find great places to stay near the trails you love to hike. Choose from any of the VRBO House Rentals or select your favorite trail to find the houses the match your criteria.
+        </p>
+      </template>
+      
+      <template if="{{vrbo}}">
+        <div>
+          <h4>Listing Details</h4>
+          <dl>
+            <div class="listing-el"><dt>Price:</dt><dd>{{RateSummary}}</dd></div>  
+            <div class="listing-el"><dt>Average Review:</dt><dd>{{AverageReview}}</dd></div> 
+            <div class="listing-el"><dt>Number of Reviews:</dt><dd>{{NumberOfReviews}}</dd></div>
+            <div class="listing-el"><dt>Bathrooms:</dt><dd>{{Bathrooms}}</dd></div>  
+            <div class="listing-el"><dt>Bedrooms:</dt><dd>{{Bedrooms}}</dd></div>     
+            <div class="listing-el"><dt>Sleeps:</dt><dd>{{Sleeps}}</dd></div>        
+            <div class="listing-el"><dt>Region:</dt><dd>{{RegionName}}</dd></div>
+            <div class="listing-el"><dd class="image-dd"><img src="{{ImageURL}}"></dd></div>
+          </dl>
+        </div>
+      </template>
+
+      <template if="{{trail}}">
+        <div>
+          <h4>{{Name}}</h4>
+        </div>
+      </template>
+
+    </template>
+    
+    <script src="../app/elements/javascripts/woot-details.js"></script>
+
+</polymer-element>
+
+        
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="../app/#">Trail::Bed</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="../app/about.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <woot-map basemap="national-geographic" extent="-116.96948719024026, 34.18143268020082, -116.82941150664668,34.28574473543267"></woot-map>
+
+      <div id="elements-bottom">
+        <stylist-element format="esri" type="point"></stylist-element>
+
+        <chart-pie values="[20, 30, 100]"></chart-pie>
+
+        <chart-line values="[ [3,10,2,7] , [87,102,150,250] ]" labels="[&apos;Studio&apos;, &apos;1Br&apos;, &apos;2Br&apos;, &apos;3Br&apos;, &apos;4Br&apos;]"></chart-line>
+      </div>
+
+
+      <div id="elements-right">
+        <woot-details></woot-details>   
+      </div>
+
+
+      <polymer-woot-mark-down></polymer-woot-mark-down>
+
+    </body>
+    <script src="../app/javascripts/app.js"></script>
+    <script>
+      var Woot = {};
+      document.addEventListener('WebComponentsReady', function() {
+        Woot.controller = new WootController();
+      });
+    </script>
+</html>
