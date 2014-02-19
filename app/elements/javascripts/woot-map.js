@@ -102,6 +102,17 @@ Polymer('woot-map', {
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
+        var grad = me.vrboLayer.renderer;
+        grad.setProportionalSymbolInfo({
+          field: "Bedrooms",
+          minSize: 2,
+          maxSize: 25,
+          minDataValue: 0,
+          maxDataValue: 9,
+          valueUnit: "unknown"
+        });
+        me.vrboLayer.redraw();
+
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
         me.map.on('layer-add', function (e) { me.fire('layer-added', e); });
