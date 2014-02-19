@@ -2,7 +2,7 @@
 
 
 //Constructor
-var WootController = function ($) {
+var WootController = function () {
   //Private Variables
   var self = this;
   var mapEl = document.querySelector('woot-map');
@@ -16,6 +16,7 @@ var WootController = function ($) {
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
   mapEl.addEventListener('trail:click', onTrailLayerClicked);
+  //var thing = onBufferPoints.bind;
   mapEl.addEventListener('buffer:points', onBufferPoints);
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
@@ -24,8 +25,21 @@ var WootController = function ($) {
 
   detailsEl.addEventListener('select:vrbo', onSelectVrbo);
   detailsEl.addEventListener('deselect:vrbo', onDeselectVrbo);
+
+  scatterEl.addEventListener('scatter-selected', onScatterSelect);
+  scatterEl.addEventListener('scatter-exit', onScatterExit);
   
   mapEl.addEventListener('layer-added', onLayerAdded);
+
+  function onScatterSelect(e){ 
+    detailsEl.updateVrbo(e.detail.msg);
+    //mapEl.hilight
+  }
+
+  function onScatterExit(e){ 
+    var data = Woot.rawBufferData;
+    detailsEl.updateTrail(null, data);
+  }
 
   //Private Methods
   function onVrboLayerClicked (e) {
@@ -37,30 +51,23 @@ var WootController = function ($) {
   }
 
   function onBufferPoints ( e ) {
-    detailsEl.updateTrail(null, e.detail);
+    //this is the woot-map
+    Woot.rawBufferData = e.detail;
+    _updateCharts();
 
-    //self.debug('inside points')
-    //self.debug(e.detail);
-    //console.log(JSON.stringify(e.detail));
-    var olddata = DataMuncher.aggregateProperties(e.detail);
-    
-    // //pass bedrooms to pie chart
-    // //pieChartEl.values = data.Bedrooms.values;
-    // bedroomsChartEl.values = [ data.Bedrooms.values ];
-    // bedroomsChartEl.labels = data.Bedrooms.keys;
-    // bedroomsChartEl._update();
+  }
+
+  function _updateCharts(){
+    var data = Woot.rawBufferData;
+    detailsEl.updateTrail(null, data);
+
+    var olddata = DataMuncher.aggregateProperties(data);
 
     bathroomsChartEl.values = [ olddata.Bathrooms.values ];
     bathroomsChartEl.labels = olddata.Bathrooms.keys;
     bathroomsChartEl._update();
 
-    // sleepsChartEl.values = [ data.Sleeps.values ];
-    // sleepsChartEl.labels = data.Sleeps.keys;
-    // sleepsChartEl._update();
-    // 
-    //var data = DataMuncher.scatterData(e.detail);
-    scatterEl.update(e.detail);
-
+    scatterEl.update(data);
   }
 
   function onStyleListColorChanged (e) {

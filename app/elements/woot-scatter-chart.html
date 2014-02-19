@@ -127,15 +127,14 @@
                   .transition()
                   .duration(200)
                     .attr('r', function(d) { return d.Bedrooms * 2.5 })
+                  self._nodeEnter(d);
               })
               .on('mouseout', function(d) {
                 d3.select(this)
                   .transition()
                   .duration(200)
                     .attr('r', function(d) { return d.Bedrooms * 2 })
-              })
-              .on('click', function(d) {
-                self._nodeSelected(d);
+                  self._nodeExit(d);
               })
               .transition()
               .duration(1000)
@@ -163,8 +162,11 @@
 
         //});
       },
-      _nodeSelected: function(d) {
+      _nodeEnter: function(d) {
         this.fire('scatter-selected', {msg: d});
+      },
+      _nodeExit: function(d) {
+        this.fire('scatter-exit', {msg: d});
       },
       // instance of the element is created
       created: function() { },
