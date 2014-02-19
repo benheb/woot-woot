@@ -7,11 +7,12 @@ var WootController = function ($) {
   var self = this;
   var mapEl = document.querySelector('woot-map');
   var styleListEl = document.querySelector('stylist-element');
-  var vrboDetailsEl = document.querySelector('woot-vrbo-details');
+  var detailsEl = document.querySelector('woot-details');
 
 
   mapEl.addEventListener('vrbo:click', onVrboLayerClicked);
   mapEl.addEventListener('trail:click', onTrailLayerClicked);
+  mapEl.addEventListener('buffer:points', onBufferPoints);
 
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
@@ -22,11 +23,16 @@ var WootController = function ($) {
 
   //Private Methods
   function onVrboLayerClicked (e) {
-    vrboDetailsEl.update(e.detail.graphic.attributes);
+    detailsEl.update('vrbo', e.detail.graphic.attributes);
   }
 
   function onTrailLayerClicked (e) {
-    self.debug('onTrailLayerClicked is not implemented!');
+    detailsEl.update('trail', e.detail.graphic.attributes);
+  }
+
+  function onBufferPoints ( e ) {
+    self.debug('inside points')
+    self.debug(e.detail);
   }
 
   function onStyleListColorChanged (e) {

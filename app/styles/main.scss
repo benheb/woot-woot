@@ -23,11 +23,12 @@ html, body, #map {
 #elements-bottom {
   position:absolute;
   bottom:10px;
-  height:315px;
+  height:250px;
   z-index: 100;
+  width:100%;
 }
 
-woot-vrbo-details img {
+woot-details img {
   width: 100%;
   border: solid 2px gray;
   border-radius: 4px;
@@ -36,7 +37,7 @@ woot-vrbo-details img {
 #elements-right {
   position:absolute;
   top: 60px;
-  bottom: 10px;
+  bottom: 25px;
   right: 10px;
   width: 250px;
   z-index: 100;
@@ -52,4 +53,13 @@ woot-vrbo-details img {
 #chart-element-container {
   float:left;
   bottom: 10px;
+}
+
+circle {
+  cursor:pointer;
+}
+
+circle:hover {
+  stroke:#999;
+  stroke-width:2;
 }

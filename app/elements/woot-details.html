@@ -1,4 +1,9 @@
+<<<<<<< HEAD:app/elements/woot-vrbo-details.html
 <polymer-element name="woot-vrbo-details" attributes="">
+=======
+<polymer-element name="woot-details" attributes="">
+
+>>>>>>> 5509bf1e2aa23f2496b9a9616a1a44ca0b48fce6:app/elements/woot-details.html
     <template>
       <style>
         :host {
@@ -12,6 +17,7 @@
           box-shadow: 0px 0px 13px -1px #444;
           position: absolute;
         }
+<<<<<<< HEAD:app/elements/woot-vrbo-details.html
       </style>      
       <template if="{{!RegionName}}">
         <h2>Welcome to Trail::Bed</h2>
@@ -20,6 +26,11 @@
         </p>
       </template>
       <template if="{{RegionName}}">
+=======
+      </style>
+      
+      <template if="{{vrbo}}">
+>>>>>>> 5509bf1e2aa23f2496b9a9616a1a44ca0b48fce6:app/elements/woot-details.html
         <div>
           <h4>Listing Details</h4>
           <dl>
@@ -35,8 +46,14 @@
         </div>
       </template>
 
+      <template if="{{trail}}">
+        <div>
+          <h4>{{Name}}</h4>
+        </div>
+      </template>
+
     </template>
     
-    <script src="javascripts/woot-vrbo-details.js"></script>
+    <script src="javascripts/woot-details.js"></script>
 
 </polymer-element>
