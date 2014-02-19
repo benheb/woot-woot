@@ -27,6 +27,25 @@ Polymer('stylist-element', {
 
   },
   
+  addLayer: function(layer) {
+    var fields = layer.impl.detail.layer.fields,
+        selected = false;
+    for(var i = 0; i<fields.length;i++) {
+      if ( fields[ i ].type === "esriFieldTypeInteger" ) {
+        var option = document.createElement('option');
+        option.text = fields[i].alias;
+        
+        // if(!selected) { // make the first layer default styled
+        //   this.fire('graduate-symbols', {msg: fields[i].alias});
+        //   option.selected = true;        
+        //   selected = true;
+        // }
+
+        document.getElementById('graduate-symbol-list').appendChild(option);
+      }
+    }
+  },
+
   changeColor: function(e) {
     var id = e.impl.target.id;
     this.fire('color-changed', {msg: '#'+id}); //send event to update map

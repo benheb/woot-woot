@@ -1,5 +1,13 @@
 'use strict';
 
+Array.max = function( array ){
+    return Math.max.apply( Math, array );
+};
+ 
+Array.min = function( array ){
+    return Math.min.apply( Math, array );
+};
+
 Polymer('woot-map', {
   basemap: 'streets',
   webMapId: '',
@@ -102,6 +110,18 @@ Polymer('woot-map', {
         me.vrboLayer.on('click', function (e) { me._pointClick(e); });
         me.map.addLayer(me.vrboLayer);
 
+        // FIXME: move this into stylist.js
+        var grad = me.vrboLayer.renderer;
+        grad.setProportionalSymbolInfo({
+          field: "Bedrooms",
+          minSize: 2,
+          maxSize: 25,
+          minDataValue: 0,
+          maxDataValue: 9,
+          valueUnit: "unknown"
+        });
+        me.vrboLayer.redraw();
+
         //raise event to outside world
         me.map.on('extent-change', function (e) { me.fire('extent-change', e); });
         me.map.on('layer-add', function (e) { me.fire('layer-added', e); });
@@ -121,6 +141,12 @@ Polymer('woot-map', {
   changeSize: function(size) {
     this.vrboLayer.renderer.symbol.size = size;
     this.vrboLayer.redraw();
+  },
+  selectVrbo: function (id) {
+    //TODO: implement this!
+  },
+  deselectVrbo: function () {
+    //TODO: implement this!
   },
   _lineClick: function(e){
     var me = this;
@@ -187,18 +213,17 @@ Polymer('woot-map', {
   }, 
 
   graduateSymbols: function(attr) {
+    console.log("graduateSymbols", attr)
     var self = this;
     var renderer = this.vrboLayer.renderer;
-    var min = 0, max = 0;
+    var vals = []
     for ( var i = 0; i < this.vrboLayer.graphics.length; i++ ) {
-      var val = self.vrboLayer.graphics[ i ].attributes[ attr ];
-      if ( val < min ) { min = val }
-      if ( val > max ) { max = val }
-      if ( val > 0 && max === 0 ) { max = val }
+      vals.push(parseFloat((self.vrboLayer.graphics[ i ].attributes[ attr ])));
     }
+    var min = Array.min(vals), max = Array.max(vals);
     renderer.setProportionalSymbolInfo({
       field: attr,
-      minSize: 2,
+      minSize: 4,
       maxSize: 25,
       minDataValue: Math.round(parseInt(min)),
       maxDataValue: Math.round(parseInt(max)),

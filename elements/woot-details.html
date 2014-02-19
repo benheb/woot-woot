@@ -47,7 +47,7 @@
           <h4>{{Name}}</h4>
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
-            <div>
+            <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
               {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms, Average review: {{AverageReview}}
             </div>
           </template>

@@ -27,6 +27,7 @@
         <link rel="import" href="elements/stylist-element.html">
         <link rel="import" href="elements/chart-element.html">
         <link rel="import" href="elements/woot-details.html">
+
     </head>
     <body>
 
@@ -48,7 +49,7 @@
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
-        <chart-pie values="[20, 30, 100]"></chart-pie>
+        <chart-pie width="this.width" values="[20, 30, 100]"></chart-pie>
 
         <chart-line values="[ [3,10,2,7] , [87,102,150,250] ]" labels="['Studio', '1Br', '2Br', '3Br', '4Br']"></chart-line>
       </div>

@@ -28,6 +28,7 @@
         
         
         
+
     </head>
     <body><polymer-element name="polymer-body" extends="body" assetpath="../app/bower_components/polymer/">
 
@@ -258,7 +259,7 @@
 
 <!-- Pie -->
 
-<polymer-element name="chart-pie" attributes="values colors" assetpath="../app/elements/">
+<polymer-element name="chart-pie" attributes="values colors height width" assetpath="../app/elements/">
   <template>
     <style>
       #pie-chart-element-container {
@@ -538,7 +539,7 @@
           <h4>{{Name}}</h4>
           <h5>Nearby listings:</h5>
           <template repeat="{{vrbos}}">
-            <div>
+            <div data-id="{{id}}" on-mouseover="{{onMouseOver}}" on-mouseout="{{onMouseOut}}">
               {{Bedrooms}} bedrooms, {{Bathrooms}} bathrooms, Average review: {{AverageReview}}
             </div>
           </template>
@@ -570,7 +571,7 @@
       <div id="elements-bottom">
         <stylist-element format="esri" type="point"></stylist-element>
 
-        <chart-pie values="[20, 30, 100]"></chart-pie>
+        <chart-pie width="this.width" values="[20, 30, 100]"></chart-pie>
 
         <chart-line values="[ [3,10,2,7] , [87,102,150,250] ]" labels="[&apos;Studio&apos;, &apos;1Br&apos;, &apos;2Br&apos;, &apos;3Br&apos;, &apos;4Br&apos;]"></chart-line>
       </div>

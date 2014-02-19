@@ -17,9 +17,11 @@ var WootController = function ($) {
   styleListEl.addEventListener('color-changed', onStyleListColorChanged);
   styleListEl.addEventListener('size-changed', onStyleListSizeChanged);
   styleListEl.addEventListener('graduate-symbols', onStyleListGraduateSymbol);
+
+  detailsEl.addEventListener('select:vrbo', onSelectVrbo);
+  detailsEl.addEventListener('deselect:vrbo', onDeselectVrbo);
   
   mapEl.addEventListener('layer-added', onLayerAdded);
-
 
   //Private Methods
   function onVrboLayerClicked (e) {
@@ -46,18 +48,18 @@ var WootController = function ($) {
     mapEl.graduateSymbols( e.detail.msg );
   }
 
+  function onSelectVrbo (e) {
+    mapEl.selectVrbo(e.detail);
+  }
+
+  function onDeselectVrbo () {
+    mapEl.deselectVrbo();
+  }
+
   function onLayerAdded (layer) {
     if ( layer.impl.detail.layer.id === 'graphicsLayer3' ) {
-      var fields = layer.impl.detail.layer.fields;
-      for(var i = 0; i<fields.length;i++) {
-        if ( fields[ i ].type === "esriFieldTypeInteger" ) {
-          var option = document.createElement('option');
-          option.innerHTML = fields[i].alias;
-          document.getElementById('graduate-symbol-list').appendChild(option);
-        }
-      }
+      styleListEl.addLayer(layer);
     }
-    //mapEl.changeSize( e.detail.msg );
   }
 };
 
