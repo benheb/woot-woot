@@ -54,3 +54,12 @@ woot-details img {
   float:left;
   bottom: 10px;
 }
+
+circle {
+  cursor:pointer;
+}
+
+circle:hover {
+  stroke:#999;
+  stroke-width:2;
+}
